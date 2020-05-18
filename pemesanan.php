@@ -8,21 +8,6 @@ $categories = query("SELECT * FROM kat_produk");
 //TAMPILKAN PEMBAYARAN PUNYA USER
 $details = query("SELECT transaksi.id_user,id_pembayaran,pembayaran.id_transaksi,nama_produk,harga_produk,jumlah,metode_pembayaran,status_pembayaran,bukti_pembayaran FROM pembayaran,transaksi,produk,user WHERE pembayaran.id_transaksi=transaksi.id_transaksi AND produk.id_produk=transaksi.id_produk AND user.id_user=transaksi.id_user AND transaksi.id_user = '$id_user'");
 
-
-if(isset($_POST['btn-pembayaran'])){
-    echo "Baryar".$_POST['id_transaksi'];
-}
-if(isset($_POST['btn-cancel'])){
-    if(hapus($_POST)>0){
-        echo "<script> 
-        console.log('Berhasil'); 
-        document.location.href = 'keranjang.php';
-        </script>";
-    } else {
-        echo "<script> console.log('Cancel beberapa saat lagi'); </script>";
-    }
-
-}
 if(isset($_GET['q'])){
     $keyword = $_GET['q'];
     $products = query("SELECT * FROM produk WHERE id_kat_produk='$keyword'");

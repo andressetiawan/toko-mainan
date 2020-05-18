@@ -180,7 +180,13 @@ main section#konfirmasi-pembayaran form button{
     padding: 5px 15px;
     transition: all .5s;
 }
-main section#konfirmasi-pembayaran form button:hover{
-    color: #e17055;
-    box-shadow: 1px 1px 15px 5px #e17055;
+main section#konfirmasi-pembayaran form select#jenis{
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    color: black;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px solid black;
+    border-radius: 20px;
 }
+

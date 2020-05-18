@@ -1,9 +1,8 @@
 <?php
 require 'connection.php';
-$id_transaksi = $_POST['id'];
+$id_transaksi = $_POST['id_transaksi'];
 $metode = $_POST['metode'];
 $btn = $_POST['btn-confirm'];
-
 if(isset($_POST['btn-confirm'])){
     global $conn;
     global $id_transaksi;

@@ -98,7 +98,7 @@ if(isset($_POST['btn-search'])){
                 </div>
 
                 <div id="tool">
-                    <form action="pembayaran.php" method="post">
+                    <form action="konfirmasi.php" method="post">
                         <input type="hidden" name="id_transaksi" value="<?= $cart['id_transaksi'] ?>">
                         <button name="btn-pembayaran" type="submit">PEMBAYARAN</button>
                     </form>
