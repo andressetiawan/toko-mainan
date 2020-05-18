@@ -1,0 +1,235 @@
+/* Semua body */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+textarea:focus, input:focus{
+    outline: none;
+}
+input[type="date"]::-webkit-inner-spin-button{
+    display: none;
+    -webkit-appearance: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+head, body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffeaa7;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    margin: 20px auto;
+    max-width: 900px;
+    height: 1300px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header website */
+header{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdcb6e;
+}
+/* Tulisan toko mainan */
+div#banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-grow: 1;
+}
+div#banner p{
+    color: #2c3e50;
+    font-size: small;
+}
+div#banner h1{
+    color: #e17055;
+    font-size: 50px;
+}
+
+/* Navbar */
+header nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-grow: .55;
+    background-color: #e17055;
+}
+input#search{
+    color: #2c3e50;
+    height: 25px;
+    padding: 0px 10px;
+    border-radius: 15px;
+    border: 1px solid #2c3e50;
+    background-color: transparent;
+}
+button#search{
+    cursor: pointer;
+    font-size: medium;
+    background-color: transparent;
+    color: #2c3e50;
+    border: none;
+    border-radius: 50%;
+}
+input#search::placeholder{
+    color: #2c3e50;
+}
+header nav a{
+    text-decoration: none;
+    color: #2c3e50;
+}
+nav a.daftar-nav , nav a.kat-nav , nav a.pemesanan-nav , nav a.keranjang-nav{
+    cursor: pointer;
+}
+
+/* Main area */
+main#homepage{
+    flex-grow: 15;
+    display: flex;
+}
+
+/* Kategori kiri */
+aside{
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdcb6e;
+}
+
+section#kategori-index.show{
+    transform: scaleY(1);
+}section#kategori-signup.show{
+    transform: scaleY(1);
+}
+
+section#kategori-index, section#kategori-signup{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    transform: scaleY(0);
+    transform-origin: top;
+    flex-grow: .5;
+    background-color: #e17055;
+    transition: all .5s;
+    margin-bottom: 10px;
+}
+section#kategori-signup{
+    width: 200px;
+}
+section#kategori-index a, section#kategori-signup a{
+    color: #2c3e50;
+    text-decoration: none;
+}
+section#kategori-index a:hover{
+    font-weight: bolder;
+}section#kategori-signup a:hover{
+    font-weight: bolder;
+}
+
+/* Login kiri */
+section#login form h1 {
+    color: #2c3e50;
+}
+section#login{
+    padding: 0 30px;
+    flex-grow: 1;
+}
+section#login form input{
+    color: #2c3e50;
+    height: 25px;
+    padding: 2px 10px;
+    border-radius: 15px;
+    border: 1px solid #2c3e50;
+    background-color: transparent;
+}
+section#login form button#login{
+    margin-top: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    width: 50%;
+    height: 30px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 0px 7px;
+    border-radius: 15px;
+    border: 1px solid #2c3e50;
+    background-color: #e17055;
+}
+
+/* Main kanan */
+
+/* Hello atas Main kanan */
+section#main{
+    line-height: 3px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rebeccapurple;
+}
+section#main div#product{
+    justify-content: center;
+    display: flex;
+    font-size: small;
+    background-color: #fab1a0;
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+section#main div#product div#keterangan{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 5;
+    width: 100%;
+    padding: 10px;
+}
+section#main div#product div#tool{
+    display: flex;
+    flex-direction: column;
+}
+section#main div#product div#tool form{
+    display: flex;
+    padding: 0 15px;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+section#main div#product div#tool form button{
+    cursor: pointer;
+    background: transparent;
+    border: 2px solid #2c3e50;
+    border-radius: 15px;
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Profile */
+div#profile{
+    cursor: pointer;
+    line-height: 1px;
+    display: flex;
+    color: #2c3e50;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    border: 1px solid #2c3e50;
+    border-radius: 50%;
+    padding: 5px;
+}
+div#profile p{
+    font-size: small;
+    text-transform: uppercase;
+    
+}
+header nav i#profile{
+    font-size: larger;
+}
