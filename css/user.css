@@ -27,7 +27,7 @@ body{
 }
 /* Header website */
 header{
-    flex-grow: 1;
+    height: 250px;
     display: flex;
     flex-direction: column;
     background-color: #fdcb6e;
@@ -54,7 +54,7 @@ header nav {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    flex-grow: .55;
+    height: 55px;
     background-color: #e17055;
 }
 input#search{
@@ -87,17 +87,18 @@ nav a.daftar-nav , nav a.kat-nav{
 /* PROFILE */
 div#profile{
     cursor: pointer;
-    line-height: 1px;
+    height: 80%;
     display: flex;
     color: #2c3e50;
     justify-content: center;
-    text-align: center;
+    align-items: center;
     flex-direction: column;
     border: 1px solid #2c3e50;
     border-radius: 50%;
-    padding: 5px;
+    padding: 2px 10px;
 }
 div#profile p{
+    margin: 0;
     font-size: small;
     text-transform: uppercase;
 }

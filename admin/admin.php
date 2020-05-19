@@ -23,7 +23,7 @@ if(isset($_POST['btn-input'])){
 //SEARCH
 $categories = query("SELECT * FROM kat_produk");
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
-    $products = query("SELECT*FROM produk ORDER BY id_produk DESC");
+    $products = query("SELECT*FROM produk ORDER BY id_produk DESC LIMIT 0,3");
 }
 if(isset($_GET['q'])){
     $id = $_GET['q'];
@@ -98,7 +98,7 @@ if(isset($_POST['btn-search'])){
                     <?php endforeach; ?>
                     </select>
                     <label for="berat_produk">Berat produk</label>
-                    <input id="berat_produk" name="berat_produk" type="number">
+                    <span><input id="berat_produk" name="berat_produk" type="number"> Gram</span>
 
                     <label for="gambar_produk">Gambar produk</label>
                     <input style="all: initial; font-family: 'Poppins', sans-serif; color: #121920;" id="gambar_produk" name="gambar_produk" type="file">

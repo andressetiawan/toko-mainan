@@ -158,7 +158,7 @@ main section#container-admin section#input-admin form{
 main section#container-admin section#input-admin form label{
     margin-left: 20px;
 }
-main section#container-admin section#input-admin form  input{
+main section#container-admin section#input-admin form input{
     font-family: 'Poppins', sans-serif;
     background-color: transparent;
     border: 1px solid #121920;
@@ -166,6 +166,10 @@ main section#container-admin section#input-admin form  input{
     padding: 5px 10px;
     width: 50%;
     margin-bottom: 5px;
+}
+main section#container-admin section#input-admin form input#berat_produk, main section#container-admin section#input-admin form input#stok{
+    text-align: center;
+    width: 100px;
 }
 main section#container-admin section#input-admin textarea{
     font-family: 'Poppins', sans-serif;
