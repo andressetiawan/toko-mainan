@@ -1,12 +1,15 @@
 <?php
 session_start();
+//APAKAH SUDAH LOGIN?
+if(!$_SESSION['login']){
+    header('Location: index.php');
+}
 require 'include/functions.php';
 $tanggal_sekarang = date('Y-m-d');
 $username = $_SESSION['nama'];
 $id = $_SESSION['id_user'];
 $id_transaksi = $_POST['id_transaksi'];
-$details = query("SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,id_transaksi,gambar_produk,nama_produk,jumlah,harga_produk FROM transaksi,produk,user WHERE transaksi.id_produk=produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_user='$id'");
-
+$details = query("SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,id_transaksi,gambar_produk,nama_produk,jumlah,harga_produk,stok,produk.id_produk FROM transaksi,produk,user WHERE transaksi.id_produk=produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_user='$id' AND id_transaksi='$id_transaksi'");
 
 $categories = query("SELECT * FROM kat_produk");
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
@@ -19,32 +22,6 @@ if(isset($_GET['q'])){
 if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
     $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%'");
-}
-if(isset($_POST['btn-confirm'])){
-    global $conn;
-    if(updatePembayaran($_POST)>0){
-        echo '<script> 
-        alert("Terima kasih atas pembayaran, admin kami akan segera memproses");
-        document.location.href = "pemesanan.php";
-        </script>';
-    } else {
-        echo mysqli_error($conn);
-    }
-}
-
-$addresses = query("SELECT * FROM alamat LIMIT 5");
-if(isset($_POST['btn-daftar'])){
-    if(signup($_POST) > 0){
-        echo '<script> 
-        alert("Registrasi berhasil") 
-        document.location.href = "index.php";
-        </script>';
-    } else {
-        echo '<script> 
-        alert("Registrasi gagal") 
-        document.location.href = "signup.php";
-        </script>';
-    }
 }
 
 ?>
@@ -60,7 +37,7 @@ if(isset($_POST['btn-daftar'])){
 <body>
     <header> 
         <div id="banner">
-            <p>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</p>
+            <marquee>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</marquee>
             <h1>TOKO MAINAN</h1>
         </div>
 
@@ -92,7 +69,10 @@ if(isset($_POST['btn-daftar'])){
 
             <section id="konfirmasi-pembayaran">
                     <form action="./include/metode.php" method="post">
-                        
+                    <input type="hidden" name="id_produk" id="id_produk" value="<?=$details[0]['id_produk']?>">    
+                    <input type="hidden" name="stok" id="stok" value="<?=$details[0]['stok']?>">
+                    <input type="hidden" name="jumlah" id="jumlah" value="<?=$details[0]['jumlah']?>">
+
                         <h4>Gambar </h4>
                         <img src="./img/<?=$details[0]['gambar_produk'] ?>" alt="<?=$details[0]['nama_produk'] ?>" width="150">
 
@@ -110,6 +90,13 @@ if(isset($_POST['btn-daftar'])){
                             <option value="Emoney">Emoney</option>
                             <option value="Transfer">Transfer</option>
                         </select> <br>
+
+                        <h4>Jenis pengiriman : </h4>
+                        <select name="pengiriman" id="jenis">
+                            <option value="JNE">JNE</option>
+                            <option value="TIKI">TIKI</option>
+                        </select> <br>
+
                         <button type="submit" name="btn-confirm" id="btn-confirm" > Confirm </button>
                     </form>
             </section>

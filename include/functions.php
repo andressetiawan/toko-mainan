@@ -84,6 +84,21 @@ function hapus($data){
     return mysqli_affected_rows($conn);
 }
 
+//UPDATE AUTO UPDATE STOK
+function updateStok($data){
+global $conn;
+$stok = $data['stok'];
+$jumlah = $data['jumlah'];
+$stokBaru = $stok-$jumlah;
+if($stokBaru <= 0){
+    return false;
+} else {
+    $query = "UPDATE produk SET stok = '$stokBaru'";
+    mysqli_query($conn,$query);
+    return mysqli_affected_rows($conn);
+}
+}
+
 //UPDATE PEMBAYARAN
 function updatePembayaran($data){
 global $conn;

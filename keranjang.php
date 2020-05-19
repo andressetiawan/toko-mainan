@@ -1,11 +1,15 @@
 <?php
 session_start();
+//APAKAH SUDAH LOGIN?
+if(!$_SESSION['login']){
+    header('Location: index.php');
+}
 require './include/functions.php';
 $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
 $categories = query("SELECT * FROM kat_produk");
 //TAMPILKAN SEMUA YANG BELUM DIBAYAR, MASIH BISA CANCEL
-$carts = query("SELECT id_transaksi,gambar_produk,nama_produk,harga_produk,jumlah FROM transaksi NATURAL JOIN produk WHERE id_user='$id_user' AND id_transaksi = ANY (SELECT id_transaksi FROM transaksi WHERE id_transaksi NOT IN(SELECT id_transaksi FROM pembayaran))");
+$carts = query("SELECT id_transaksi,gambar_produk,nama_produk,harga_produk,jumlah FROM transaksi NATURAL JOIN produk WHERE id_user='$id_user' AND id_transaksi = ANY (SELECT id_transaksi FROM transaksi WHERE id_transaksi NOT IN(SELECT id_transaksi FROM pembayaran)) ORDER BY id_transaksi DESC");
 
 if(isset($_POST['btn-pembayaran'])){
     echo "Baryar".$_POST['id_transaksi'];
@@ -44,7 +48,7 @@ if(isset($_POST['btn-search'])){
 <body>
     <header> 
         <div id="banner">
-            <p>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</p>
+            <marquee>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</marquee>
             <h1>TOKO MAINAN</h1>
         </div>
 

@@ -1,5 +1,9 @@
 <?php
 session_start();
+//APAKAH SUDAH LOGIN?
+if(!$_SESSION['login']){
+    header('Location: index.php');
+}
 require './include/functions.php';
 $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
@@ -30,7 +34,7 @@ if(isset($_POST['btn-search'])){
 <body>
     <header> 
         <div id="banner">
-            <p>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</p>
+            <marquee>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</marquee>
             <h1>TOKO MAINAN</h1>
         </div>
 

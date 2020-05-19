@@ -1,21 +1,28 @@
 <?php
 session_start();
+//APAKAH SUDAH LOGIN?
+if(isset($_SESSION['login'])){
+    header('Location: user.php');
+} 
+else if (isset($_SESSION['masuk'])) {
+    header('Location: admin.php');
+}
 require 'include/functions.php';
 //TAMPILKAN SEMUA KATEGORI
 $categories = query("SELECT * FROM kat_produk");
 //TAMPILKAN SEMUA PRODUK
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
-    $products = query("SELECT*FROM produk");
+    $products = query("SELECT*FROM produk WHERE status_produk = 'Ready'");
 }
 //TAMPILKAN SEMUA PRODUK BERDASARKAN ID_KAT_PRODUK
 if(isset($_GET['q'])){
     $keyword = $_GET['q'];
-    $products = query("SELECT * FROM produk WHERE id_kat_produk='$keyword'");
+    $products = query("SELECT*FROM produk WHERE id_kat_produk='$id' AND status_produk = 'Ready'");
 }
 //TAMPILKAN SEMUA PRODUK BERDASARKAN NAMA PRODUK
 if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
-    $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%'");
+    $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%' AND status_produk = 'Ready'");
 }
 //LOGIN SYSTEM
 if(isset($_POST['login'])){
@@ -29,11 +36,11 @@ if(isset($_POST['login'])){
           if($user['id_kat_user']==1){
             $_SESSION['nama'] = $user['username'];
             $_SESSION['id_user'] = $user['id_user'];
-            $_SESSION['login'] = true;
+            $_SESSION['masuk'] = true;
             echo "
             <script> 
               alert('login berhasil');
-              document.location.href = './admin.php';
+              document.location.href = 'admin/admin.php';
             </script>
             ";
           } else {
@@ -69,7 +76,7 @@ if(isset($_POST['login'])){
     <header> 
         <!-- TULISAN PALING ATAS -->
         <div id="banner">
-            <p>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</p>
+        <marquee>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</marquee>
             <h1>TOKO MAINAN</h1>
         </div>
 

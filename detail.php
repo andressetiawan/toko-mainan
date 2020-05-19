@@ -76,7 +76,7 @@ if(isset($_POST['login'])){
             <a href="index.php">Home</a>
             <a class="pemesanan-nav" onclick="alert('Login sebelum melakukan transaksi')" >Pemesanan</a>
             <!-- Searching -->
-            <form action="" method="post">
+            <form action="index.php" method="post">
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>

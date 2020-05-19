@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require './include/functions.php';
 $categories = query("SELECT * FROM kat_produk");
 $username = $_SESSION['nama'];

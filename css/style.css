@@ -33,7 +33,7 @@ header{
     background-color: #fdcb6e;
 }
 /* TULISAN DIPALING ATAS HEADER */
-div#banner p{
+div#banner marquee{
     color: #2c3e50;
     font-size: small;
 }
