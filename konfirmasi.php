@@ -5,10 +5,16 @@ if(!$_SESSION['login']){
     header('Location: index.php');
 }
 require 'include/functions.php';
+//PEMBAYARAN
+$payments = query("SELECT * FROM kat_pembayaran");
+//PENGIRIMAN
+$senders = query("SELECT * FROM pengiriman");
 $tanggal_sekarang = date('Y-m-d');
 $username = $_SESSION['nama'];
 $id = $_SESSION['id_user'];
 $id_transaksi = $_POST['id_transaksi'];
+
+//DETAIL YANG INGIN DITAMPILKAN
 $details = query("SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,id_transaksi,gambar_produk,nama_produk,jumlah,harga_produk,stok,produk.id_produk FROM transaksi,produk,user WHERE transaksi.id_produk=produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_user='$id' AND id_transaksi='$id_transaksi'");
 
 $categories = query("SELECT * FROM kat_produk");
@@ -87,14 +93,16 @@ if(isset($_POST['btn-search'])){
                         <input type="hidden" name="id_transaksi" value="<?=$details[0]['id_transaksi']?>">
                         <h4>Jenis pembayaran : </h4>
                         <select name="metode" id="jenis">
-                            <option value="Emoney">Emoney</option>
-                            <option value="Transfer">Transfer</option>
+                        <?php foreach($payments as $payment) : ?>
+                            <option value="<?=$payment['id_kat_pembayaran']?>"><?=$payment['jenis_pembayaran']?></option>
+                            <?php endforeach;?>
                         </select> <br>
 
                         <h4>Jenis pengiriman : </h4>
                         <select name="pengiriman" id="jenis">
-                            <option value="JNE">JNE</option>
-                            <option value="TIKI">TIKI</option>
+                            <?php foreach($senders as $sender) : ?>
+                            <option value="<?=$sender['id_pengiriman']?>"><?=$sender['jenis_pengiriman']?></option>
+                            <?php endforeach;?>
                         </select> <br>
 
                         <button type="submit" name="btn-confirm" id="btn-confirm" > Confirm </button>

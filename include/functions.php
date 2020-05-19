@@ -102,12 +102,13 @@ if($stokBaru <= 0){
 //UPDATE PEMBAYARAN
 function updatePembayaran($data){
 global $conn;
+$id_transaksi = $data['id'];
 $tanggal_pembayaran = $data['tgl_pembayaran'];
 $bukti = upload();
 if(!$bukti){
     return false;
 }
-$query = "UPDATE pembayaran SET tgl_pembayaran = '$tanggal_pembayaran', bukti_pembayaran = '$bukti', status_pembayaran = 'Checking'";
+$query = "UPDATE pembayaran SET tgl_pembayaran = '$tanggal_pembayaran', bukti_pembayaran = '$bukti', status_pembayaran = 'Checking' WHERE id_transaksi = '$id_transaksi'";
 mysqli_query($conn,$query);
 return mysqli_affected_rows($conn);
 }

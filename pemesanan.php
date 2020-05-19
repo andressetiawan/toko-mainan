@@ -10,7 +10,7 @@ $id_user = $_SESSION['id_user'];
 $categories = query("SELECT * FROM kat_produk");
 
 //TAMPILKAN PEMBAYARAN PUNYA USER
-$details = query("SELECT transaksi.id_user,id_pembayaran,pembayaran.id_transaksi,nama_produk,harga_produk,jumlah,metode_pembayaran,status_pembayaran,bukti_pembayaran FROM pembayaran,transaksi,produk,user WHERE pembayaran.id_transaksi=transaksi.id_transaksi AND produk.id_produk=transaksi.id_produk AND user.id_user=transaksi.id_user AND transaksi.id_user = '$id_user'");
+$details = query("SELECT bukti_pembayaran,pembayaran.id_transaksi,nama_produk,jenis_pembayaran,jumlah,harga_produk,status_pembayaran,jenis_pengiriman,pembayaran.id_kat_pembayaran FROM transaksi,produk,kat_pembayaran,pembayaran,pengiriman WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
 
 if(isset($_GET['q'])){
     $keyword = $_GET['q'];
@@ -71,16 +71,31 @@ if(isset($_POST['btn-search'])){
                     <h1>#<?= $detail['id_transaksi'] ?> </h1>
                     <p><em><?= $detail['nama_produk'] ?></em></p>
                     <p>Total pembayaran : <b><?= rupiah($detail['jumlah']*$detail['harga_produk']) ?></b></p>
-                    <p>Jenis pembayaran : <b style="text-transform: capitalize";><?= $detail['metode_pembayaran'] ?></b></p>
+                    <p>Jenis pembayaran : <b style="text-transform: capitalize";><?= $detail['jenis_pembayaran'] ?></b></p>
+                    <p>Jenis pengiriman : <b style="text-transform: capitalize";><?= $detail['jenis_pengiriman'] ?></b></p>
                     <p>Status pembayaran : <b style="text-transform: capitalize";><?= $detail['status_pembayaran'] ?></b></p>
+
                 </div>
 
                 <div id="tool">
                     <form action="pembayaran.php" method="post">
                         <!-- KALAU BUKTI PEMBAYARAN ADA TIDAK USAH TAMPILKAN KONFIRMASI PEMBAYARAN -->
-                        <?php if($detail['bukti_pembayaran'] == NULL) : ?>
-                            <input type="hidden" name="id_transaksi" value="<?= $cart['id_transaksi'] ?>">
+                        <?php if($detail['bukti_pembayaran'] == NULL && $detail['id_kat_pembayaran']=="1") : ?>
+                            <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
+                            <p>Transfer</p>
+                            <p><b>BCA 0000-88-0000</b></p>
+                            <p>a.n Darryl Nathanael</p>
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
+                        <?php endif; ?>
+                        <?php if($detail['bukti_pembayaran'] == NULL && $detail['id_kat_pembayaran']=="2") : ?>
+                            <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
+                            <p>OVO Barcode</p>
+                            <img src="./img/OVO.jpg" alt="Ovo Barcode" width="100">
+                            <p>a.n Darryl Nathanael</p>
+                            <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
+                        <?php endif; ?>
+                        <?php if($detail['bukti_pembayaran'] !== NULL) :?>
+                            <h3 style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></h3>
                         <?php endif; ?>
                     </form>
                 </div>

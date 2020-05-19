@@ -5,16 +5,18 @@ if(isset($_POST['btn-confirm'])){
     global $conn;
     $id_transaksi = $_POST['id_transaksi'];
     $metode = $_POST['metode'];
+    $pengiriman = $_POST['pengiriman'];
     $btn = $_POST['btn-confirm'];
     $jumlah = $_POST['jumlah'];
     $stok = $_POST ['stok'];
     $stokUpdate = $stok- $jumlah;
     $id_produk = $_POST['id_produk'];
 
-    //KALAU ABIS
+    //KALAU BORONG
     if($stok == $jumlah){
-        $query ="INSERT INTO pembayaran(id_transaksi,metode_pembayaran) VALUES('$id_transaksi','$metode');";
-        $query .= "UPDATE produk SET stok = '$stokUpdate' WHERE id_produk = '$id_produk';";
+        $query ="INSERT INTO pembayaran(id_transaksi,id_kat_pembayaran) VALUES('$id_transaksi','$metode');";
+        $query .= "UPDATE transaksi SET id_pengiriman='$pengiriman' WHERE id_transaksi = $id_transaksi;";
+        $query .= "UPDATE produk SET stok = '$stokUpdate' WHERE id_produk = '$id_produk'";
         $query .= "UPDATE produk SET status_produk = 'Sold out' WHERE id_produk = '$id_produk';";
         $result = mysqli_multi_query($conn,$query);
         if(mysqli_affected_rows($conn)>0){
@@ -42,7 +44,8 @@ if(isset($_POST['btn-confirm'])){
 
     // KALAU STOK ADA
     if($stokUpdate > 0) {
-        $query ="INSERT INTO pembayaran(id_transaksi,metode_pembayaran) VALUES('$id_transaksi','$metode');";
+        $query ="INSERT INTO pembayaran(id_transaksi,id_kat_pembayaran) VALUES('$id_transaksi','$metode');";
+        $query .= "UPDATE transaksi SET id_pengiriman='$pengiriman' WHERE id_transaksi = $id_transaksi;";
         $query .= "UPDATE produk SET stok = '$stokUpdate' WHERE id_produk = '$id_produk'";
         $result = mysqli_multi_query($conn,$query);
             if(mysqli_affected_rows($conn)>0){

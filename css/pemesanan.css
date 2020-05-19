@@ -171,13 +171,12 @@ section#main{
     background-color: rebeccapurple;
 }
 section#main div#product{
+    margin-bottom: 5px;
     justify-content: center;
     display: flex;
     font-size: small;
     background-color: #fab1a0;
     width: 100%;
-    height: 150px;
-    margin-bottom: 20px;
     color: #2c3e50;
 }
 
@@ -186,17 +185,22 @@ section#main div#product div#keterangan{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    flex-grow: 5;
-    width: 100%;
+    width: 90%;
     padding: 10px;
 }
 section#main div#product div#tool{
+    width: 40%;
+    background-color: #e17055;
+    flex-grow: 2;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
 }
 section#main div#product div#tool form{
+    
     display: flex;
-    padding: 0 15px;
+    flex-direction: column;
+    padding: 5px 10px;
     align-items: center;
     justify-content: center;
     flex-grow: 1;

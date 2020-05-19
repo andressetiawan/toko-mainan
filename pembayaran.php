@@ -8,7 +8,11 @@ require 'include/functions.php';
 $tanggal_sekarang = date('Y-m-d');
 $username = $_SESSION['nama'];
 $id = $_SESSION['id_user'];
-$userData = query("SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,metode_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk FROM user,transaksi,produk,pembayaran WHERE user.id_user=transaksi.id_user AND transaksi.id_produk = produk.id_produk AND transaksi.id_transaksi=pembayaran.id_transaksi AND transaksi.id_user=$id");
+$id_transaksi = $_POST['id_transaksi'];
+if(!isset($id_transaksi)){
+    header('Location: pemesanan.php');
+}
+$userData = query("SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,nama_produk,jenis_pembayaran,jumlah,pembayaran.id_transaksi,harga_produk FROM user,produk,kat_pembayaran,transaksi,pembayaran WHERE transaksi.id_user=user.id_user AND transaksi.id_produk = produk.id_produk AND kat_pembayaran.id_kat_pembayaran = pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = transaksi.id_transaksi AND pembayaran.id_transaksi = '$id_transaksi'");
 
 $categories = query("SELECT * FROM kat_produk");
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
@@ -22,6 +26,7 @@ if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
     $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%'");
 }
+
 if(isset($_POST['btn-confirm'])){
     global $conn;
     if(updatePembayaran($_POST)>0){
@@ -31,21 +36,6 @@ if(isset($_POST['btn-confirm'])){
         </script>';
     } else {
         echo mysqli_error($conn);
-    }
-}
-
-$addresses = query("SELECT * FROM alamat LIMIT 5");
-if(isset($_POST['btn-daftar'])){
-    if(signup($_POST) > 0){
-        echo '<script> 
-        alert("Registrasi berhasil") 
-        document.location.href = "index.php";
-        </script>';
-    } else {
-        echo '<script> 
-        alert("Registrasi gagal") 
-        document.location.href = "signup.php";
-        </script>';
     }
 }
 
@@ -100,13 +90,13 @@ if(isset($_POST['btn-daftar'])){
                         <input type="text" name="nama" id="nama_produk" value="<?= $userData[0]['nama_produk'] ?>" readonly>
 
                         <p>No Transaksi : </p>
-                        <input type="text" name="id" value="<?= $userData[0]['id_transaksi'] ?>" readonly>
+                        <input type="text" name="id" value="<?=$id_transaksi?>" readonly>
 
                         <p>Nama pembeli : </p>
                         <input style="text-transform: capitalize" type="text" name="nama_user" value="<?= $userData[0]['nama'] ?>" readonly>
 
                         <p>Jenis pembayaran : </p>
-                        <input style="text-transform: uppercase" type="text" name="metode" value="<?= $userData[0]['metode_pembayaran'] ?>" readonly>
+                        <input style="text-transform: uppercase" type="text" name="metode" value="<?= $userData[0]['jenis_pembayaran'] ?>" readonly>
 
                         <p>Total yang harus dibayar : </p>
                         <input type="text" name="harga" value="<?= rupiah($userData[0]['jumlah']*$userData[0]['harga_produk']) ?>" readonly>
