@@ -5,7 +5,7 @@ if(isset($_SESSION['login'])){
     header('Location: user.php');
 } 
 else if (isset($_SESSION['masuk'])) {
-    header('Location: admin.php');
+    header('Location: admin/admin.php');
 }
 require 'include/functions.php';
 //TAMPILKAN SEMUA KATEGORI

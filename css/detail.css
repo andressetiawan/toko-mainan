@@ -193,6 +193,7 @@ section#main{
     padding: 0 80px;
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     background-color: rebeccapurple;
@@ -227,5 +228,8 @@ section#main form input{
     padding: 5px 10px;
     width: 25px;
     margin-right: 10px;
-
 }
+section#main #ket p{
+    margin-top: -5px;
+    line-height: normal;
+} 

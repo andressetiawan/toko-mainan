@@ -99,6 +99,60 @@ if($stokBaru <= 0){
 }
 }
 
+//INPUTAN DATA KE PRODUK
+function input($data){
+global $conn;
+$kategori = $data['kategori_produk'];
+$nama_produk = $data['nama_produk'];
+$stok = $data['stok'];
+$harga_produk = $data['harga_produk'];
+$berat_produk = $data['berat_produk'];
+$gambar_produk = uploadGambar();
+if(!$gambar_produk){
+    return false;
+}
+$keterangan_produk = $data['keterangan_produk'];
+$query = "INSERT INTO produk VALUES('','$kategori','$nama_produk','$stok','$harga_produk','$berat_produk','$gambar_produk','Ready','$keterangan_produk')";
+$result = mysqli_query($conn,$query);
+return mysqli_affected_rows($conn);
+}
+function uploadGambar(){
+    $namaGambar = $_FILES['gambar_produk']['name'];
+    $ukuranGambar = $_FILES['gambar_produk']['size'];
+    $error = $_FILES['gambar_produk']['error'];
+    $pathGambar = $_FILES['gambar_produk']['tmp_name'];
+
+    //FILE SUDAH DIMASUKAN ATAU BELUM
+    if($error === 4){
+        echo '<script>
+        alert("Masukan gambar terlebih dahulu");
+        </script>';
+        return false;
+    }
+
+    //CEK EKTERNSI FILE
+    $formatGambar=['jpg','jpeg','png'];
+    $formatBukti=explode('.',$namaGambar);
+    $formatBukti = strtolower(end($formatBukti));
+    if(!in_array($formatBukti,$formatGambar)){
+        echo '<script>
+        alert("Yang anda upload bukan gambar");
+        </script>';
+        return false;
+    }
+
+    //KALAU FILE BESAR BANGET
+    $ukuranFileByte = 30000000; //30MB
+    if($ukuranGambar > $ukuranFileByte){
+        echo '<script>
+        alert("Ukuran file terlalu besar");
+        </script>';
+        return false;
+    }
+    move_uploaded_file($pathGambar,'../img/'.$namaGambar);
+    return $namaGambar;
+}
+
 //UPDATE PEMBAYARAN
 function updatePembayaran($data){
 global $conn;
@@ -139,7 +193,7 @@ function upload(){
     }
 
     //KALAU FILE BESAR BANGET
-    $ukuranFileByte = pow(20,6); //5^6
+    $ukuranFileByte = 1000000; //1MB
     if($ukuranGambar > $ukuranFileByte){
         echo '<script>
         alert("Ukuran file terlalu besar");

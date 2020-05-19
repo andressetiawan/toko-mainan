@@ -1,9 +1,6 @@
 <?php
 session_start();
 //APAKAH SUDAH LOGIN?
-if(!$_SESSION['login']){
-    header('Location: index.php');
-}
 require 'include/functions.php';
 $id = $_SESSION['id_user'];
 $userData = query("SELECT * FROM user WHERE id_user = '$id'");

@@ -128,7 +128,6 @@ main section#kategori-signup{
     top:0;
     flex-grow: 1;
     background-color: #e17055;
-    margin-bottom: 15px;
 }
 main section#kategori-signup.show{
     transform: scaleY(1);
@@ -141,11 +140,72 @@ main #kategori-signup a:hover{
     font-weight: bolder;
 }
 
-main section#product{
-    box-sizing: border-box;
-    justify-content: space-evenly;
+main#homepage section#container-admin{
     display: flex;
     flex-grow: 5;
+}
+main section#container-admin section#input-admin{
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+}
+main section#container-admin section#input-admin form{
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+main section#container-admin section#input-admin form label{
+    margin-left: 20px;
+}
+main section#container-admin section#input-admin form  input{
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
+    border: 1px solid #121920;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width: 50%;
+    margin-bottom: 5px;
+}
+main section#container-admin section#input-admin textarea{
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
+    border: 1px solid #121920;
+    border-radius: 20px;
+    padding: 2px 10px;
+    width: 60%;
+}
+main section#container-admin section#input-admin textarea::placeholder{
+    color: #121920;
+}
+main section#container-admin section#input-admin button{
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bolder;
+    color: #9b59b6;
+    font-family: 'Poppins', sans-serif;
+    background-color: #121920;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: 7px 8px;
+    width: 100px;
+}
+main section#container-admin section#input-admin select {
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
+    border: 1px solid #121920;
+    border-radius: 20px;
+    padding: 2px 10px;
+    width: 200px;
+}
+
+main section#product{
+    margin: 0 auto;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
     flex-wrap: wrap;
 }
 main section#product div#box{
