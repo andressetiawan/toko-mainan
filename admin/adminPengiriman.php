@@ -13,12 +13,16 @@ if(isset($_POST['tombol']) && isset($_POST['transaksi'])){
     $query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
     $details = query($query);
     $halaman = count($details);
-} else {
+}
+else {
+    $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran ORDER BY id_pembayaran DESC";
+    $details = query($query);
+    $halaman = count($details);
+}
+if($halaman == 0){
     $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran ORDER BY id_pembayaran DESC";
     $details = query($query);
 }
-
-
 //SEARCH
 $categories = query("SELECT * FROM kat_produk");
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
@@ -77,7 +81,7 @@ if(isset($_POST['btn-search'])){
         <section id="container-admin">
         <form action="" method="post">
             <label style="font-size: larger" for="transaksi"><b>Masukan no transaksi : </b></label> <br>
-            <input type="number" name="transaksi" id="transaksi" placeholder="Masukan no transaksi" required>
+            <input type="number" name="transaksi" id="transaksi" placeholder="Masukan no transaksi">
             <button type="submit" name="tombol">SEARCH</button>
         </form>
         <table>
@@ -94,9 +98,8 @@ if(isset($_POST['btn-search'])){
 
             <tbody>
                 <?php foreach($details as $detail) : ?>
-                    <tr onclick="
-                        document.location.href = 'adminApprove.php?p=<?= $detail['id_transaksi']?>'">
-                        <td ><?= $detail['id_transaksi'] ?></td>
+                    <tr>
+                        <td > <a href="adminApprove.php?p=<?= $detail['id_transaksi'] ?>" target="_blank"><?= $detail['id_transaksi'] ?></a> </td>
                         <td> <?= $detail['nama'] ?> </td>
                         <td> <?= $detail['nama_produk'] ?> </td>
                         <td style="width: 150px"> <?= rupiah($detail['jumlah']*$detail['harga_produk']) ?> </td>
@@ -105,7 +108,6 @@ if(isset($_POST['btn-search'])){
                         <td> <?= $detail['jenis_pembayaran'] ?> </td>
                         <td> <b style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></b> </td>
                     </tr>
-                    
                     <?php endforeach; ?>
                 </tbody>
                 </table>                                                                   

@@ -69,7 +69,7 @@ if(isset($_POST['btn-search'])){
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>
-            <a href="keranjang.php" class="keranjang-nav" >Keranjang Belanja</a>
+            <a href="adminPengiriman.php" class="keranjang-nav" >Cek pengiriman</a>
             <a href="../include/logout.php" >Logout</a>
             <div id="profile">
                 <i id="profile" class="fa fa-user"></i>

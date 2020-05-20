@@ -77,12 +77,12 @@ $id_alamat_user = $userData [0]['id_alamat'];
             <a id="kat-nav" class="kat-nav">Kategori</a>
             <a href="admin.php" >Home</a>
             <a href="adminCheck.php"class="pemesanan-nav" >Cek Pemesanan</a>
-            <!-- Searching -->
+            <!-- Searching -->  
             <form action="admin.php" method="post">
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>
-            <a href="keranjang.php" class="keranjang-nav" >Keranjang Belanja</a>
+            <a href="adminPengiriman.php" class="keranjang-nav" >Cek pengiriman</a>
             <a href="../include/logout.php" >Logout</a>
             <div id="profile">
                 <i id="profile" class="fa fa-user"></i>

@@ -87,13 +87,31 @@ if(isset($_POST['btn-search'])){
                             <p>a.n Darryl Nathanael</p>
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
                         <?php endif; ?>
-                        <?php if($detail['bukti_pembayaran'] == NULL && $detail['id_kat_pembayaran']=="2") : ?>
+
+                        <?php if($detail['bukti_pembayaran'] == NULL && $detail['id_kat_pembayaran']=="2")  : ?>
                             <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
                             <p>OVO Barcode</p>
                             <img src="./img/OVO.jpg" alt="Ovo Barcode" width="100">
                             <p>a.n Darryl Nathanael</p>
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
                         <?php endif; ?>
+
+                        <?php if($detail['bukti_pembayaran'] !== NULL &&  $detail['id_kat_pembayaran']=="2" && $detail['status_pembayaran'] == "Resubmit") :?>
+                            <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
+                            <p>OVO Barcode</p>
+                            <img src="./img/OVO.jpg" alt="Ovo Barcode" width="100">
+                            <p>a.n Darryl Nathanael</p>
+                            <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
+                        <?php endif; ?>
+
+                        <?php if($detail['bukti_pembayaran'] !== NULL &&  $detail['id_kat_pembayaran']=="1" && $detail['status_pembayaran'] == "Resubmit") :?>
+                            <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
+                            <p>Transfer</p>
+                            <p><b>BCA 0000-88-0000</b></p>
+                            <p>a.n Darryl Nathanael</p>
+                            <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
+                        <?php endif; ?>
+
                         <?php if($detail['bukti_pembayaran'] !== NULL) :?>
                             <h3 style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></h3>
                         <?php endif; ?>

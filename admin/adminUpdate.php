@@ -8,7 +8,8 @@ if (!$_SESSION['masuk']) {
 require '../include/functions.php';
 $username = $_SESSION['nama'];
 $id_produk = $_GET['p'];
-$products = query("SELECT * FROM produk WHERE id_produk = $id_produk");
+$items = query("SELECT * FROM produk WHERE id_produk='$id_produk'");
+
 if(isset($_POST['btn-update'])){
     global $conn;
     if(updateProduk($_POST)>0){
@@ -55,13 +56,13 @@ if(isset($_POST['btn-search'])){
         <nav>
             <a id="kat-nav" class="kat-nav">Kategori</a>
             <a href="admin.php" >Home</a>
-            <a href="pemesanan.php"class="pemesanan-nav" >Cek Pemesanan</a>
+            <a href="adminCheck.php"class="pemesanan-nav" >Cek Pemesanan</a>
             <!-- Searching -->  
             <form action="admin.php" method="post">
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>
-            <a href="keranjang.php" class="keranjang-nav" >Keranjang Belanja</a>
+            <a href="adminPengiriman.php" class="keranjang-nav" >Cek pengiriman</a>
             <a href="../include/logout.php" >Logout</a>
             <div id="profile">
                 <i id="profile" class="fa fa-user"></i>
@@ -84,18 +85,18 @@ if(isset($_POST['btn-search'])){
                     <h1>Administrator Dashboard</h1>
                     <input type="hidden" name="id_produk" value="<?= $_GET['p']?>">
                     <label for="nama_produk">Nama produk</label>
-                    <input id="nama_produk" name="nama_produk" type="text" value="<?= $products[0]['nama_produk'] ?>">
+                    <input id="nama_produk" name="nama_produk" type="text" value="<?= $items[0]['nama_produk'] ?>">
 
                     <label for="stok">Stok</label>
-                    <input id="stok" name="stok" type="number" value="<?= $products[0]['stok'] ?>">
+                    <input id="stok" name="stok" type="number" value="<?= $items[0]['stok'] ?>">
 
                     <label for="harga_produk">Harga produk</label>
-                    <input id="harga_produk" name="harga_produk" type="number" value="<?= $products[0]['harga_produk'] ?>">
+                    <input id="harga_produk" name="harga_produk" type="number" value="<?= $items[0]['harga_produk'] ?>">
 
                     <label for="kategori_produk">Kategori produk</label>
                     <select name="kategori_produk" id="kategori_produk">
                     <?php foreach($categories as $categorie) : ?>
-                        <?php if($products[0]['id_kat_produk']==$categorie['id_kat_produk']) { ?>
+                        <?php if($items[0]['id_kat_produk']==$categorie['id_kat_produk']) { ?>
                             <option value="<?= $categorie['id_kat_produk']?>" selected><?= $categorie['jenis_produk']?></option>
                         <?php } else { ?>
                         <option value="<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk']?></option>
@@ -104,27 +105,27 @@ if(isset($_POST['btn-search'])){
                     </select>
                     <label for="status_produk">Status produk</label>
                     <select name="status_produk" id="status_produk">
-                        <?php if($products[0]['status_produk']==="Ready") { ?>
+                        <?php if($items[0]['status_produk']==="Ready") { ?>
                             <option value="Ready" selected>Ready</option>
                             <option value="Sold out">Sold out</option>
-                        <?php } else if ($products[0]['status_produk']==="Sold out") {?>
+                        <?php } else if ($items[0]['status_produk']==="Sold out") {?>
                             <option value="Ready" >Ready</option>
                             <option value="Sold out" selected>Sold out</option>
                         <?php } ?>
                     </select>
 
                     <label for="berat_produk">Berat produk</label>
-                    <span><input id="berat_produk" name="berat_produk" type="number" value="<?= $products[0]['berat_produk'] ?>"> Gram</span>
+                    <span><input id="berat_produk" name="berat_produk" type="number" value="<?= $items[0]['berat_produk'] ?>"> Gram</span>
 
                     <label for="gambar_produk">Gambar produk</label>
-                    <img src="../img/<?= $products[0]['gambar_produk'] ?>" alt="<?php $products[0]['nama_produk'] ?>" width="150" style="margin-bottom: 10px">
+                    <img src="../img/<?= $items[0]['gambar_produk'] ?>" alt="<?php $items[0]['nama_produk'] ?>" width="150" style="margin-bottom: 10px">
                     <input style="all: initial; 
                     font-family: 'Poppins', sans-serif; 
                     color: #121920; 
                     width:240px;" id="gambar_produk" name="gambar_produk" type="file">
 
                     <label for="keterangan_produk">Keterangan produk</label>
-                    <textarea name="keterangan_produk" id="keterangan_produk" style="resize: none" placeholder="Masukan keterangan dari produk"><?= $products[0]['keterangan_produk'] ?></textarea>
+                    <textarea name="keterangan_produk" id="keterangan_produk" style="resize: none" placeholder="Masukan keterangan dari produk"><?= $items[0]['keterangan_produk'] ?></textarea>
 
                     <button onclick="return confirm('Apakah anda ingin mengupdate produk?'); " name="btn-update" type="submit">UPDATE</button>
                 </form>

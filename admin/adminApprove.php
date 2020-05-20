@@ -9,19 +9,45 @@ $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
 $id_transaksi = $_GET['p'];
 
-$query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,bukti_pembayaran,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
+$query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, transaksi.id_produk, nama_produk,jumlah,harga_produk,bukti_pembayaran,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
 $details = query($query);
 $id_pembayaran = $details[0]['id_pembayaran'];
 if(isset($_POST['approved'])){
     if($details[0]['status_pembayaran'] == "Approved"){
-    echo "<script> alert('Barang telah di approved');
+    echo "<script> alert('Pembayaran sudah di approved');
     document.location.href = 'adminCheck.php'; </script>";
     } else {
     global $conn;
     mysqli_query($conn,"UPDATE pembayaran SET status_pembayaran = 'Approved' WHERE id_pembayaran ='$id_pembayaran'");
-    echo "<script> alert('Barang berhasil di approved');
+    echo "<script> alert('Pembayaran berhasil di approved');
     document.location.href = 'adminCheck.php'; </script>";
     }
+    exit;
+}
+
+if(isset($_POST['resubmit'])){
+    if($details[0]['status_pembayaran'] == "Resubmit"){
+    echo "<script> alert('Permintaan Resubmit Telah dilakukan');
+    document.location.href = 'adminCheck.php'; </script>";
+    } else {
+    global $conn;
+    mysqli_query($conn,"UPDATE pembayaran SET status_pembayaran = 'Resubmit' WHERE id_pembayaran ='$id_pembayaran'");
+    echo "<script> alert('Permintaan Resubmit berhasil');
+    document.location.href = 'adminCheck.php'; </script>";
+    }
+    exit;
+}
+
+if(isset($_POST['canceled'])){
+    global $conn;
+    $jumlah = $details[0]['jumlah'];
+    $id_produk = $details[0]['id_produk'];
+    $query = "UPDATE produk SET stok = stok + '$jumlah' WHERE id_produk = '$id_produk' ;";
+    $query .= "DELETE FROM pembayaran WHERE id_pembayaran ='$id_pembayaran';";
+    mysqli_multi_query($conn,$query);
+    echo "<script> alert('Transaksi dibatalkan');
+    document.location.href = 'adminCheck.php'; </script>";
+    exit;
 }
 
 //SEARCH
@@ -64,7 +90,7 @@ if(isset($_POST['btn-search'])){
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>
-            <a href="keranjang.php" class="keranjang-nav" >Keranjang Belanja</a>
+            <a href="adminPengiriman.php" class="keranjang-nav" >Cek pengiriman</a>
             <a href="../include/logout.php" >Logout</a>
             <div id="profile">
                 <i id="profile" class="fa fa-user"></i>
@@ -101,15 +127,22 @@ if(isset($_POST['btn-search'])){
             <p> <?= $detail['jenis_pembayaran'] ?> </p>
             <h3>Bukti Pembayaran</h3>
             <?php if(is_null($detail['bukti_pembayaran'])) : ?>
-                <a href="../img/no_photo.png" target="_blank"><img src="../img/no_photo.png" width="120"></a>
+                <a href="../img/no_photo.png" target="_blank">
+                <img src="../img/no_photo.png" width="130">
+                </a>
             <?php else : ?>
-                <a href="../pembayaran/<?= $detail['bukti_pembayaran'];?>" target="_blank"><img src="../pembayaran/<?= $detail['bukti_pembayaran'];?>" width="120"></a>
+                <a href="../pembayaran/<?= $detail['bukti_pembayaran'];?>" target="_blank">
+                <img src="../pembayaran/<?= $detail['bukti_pembayaran'];?>" width="120">
+                </a>
+
                 <a style="text-decoration: none; margin-top:10px;color:#2c3e50; font-weight: bold;" 
-                href="../pembayaran/<?= $detail['bukti_pembayaran'];?>" 
-                target="_blank" download="">DOWNLOAD</a>
+                href="../pembayaran/<?= $detail['bukti_pembayaran'];?>"target="_blank" download="">DOWNLOAD</a>
                 <form action="" method="post">
                 <button style="margin-top: 10px" type="submit" name="approved"> APPROVED </button>
+                <button style="margin-top: 10px" type="submit" name="resubmit"> RESUBMIT </button>
+                <button style="margin-top: 10px" type="submit" name="canceled" onclick="return confirm('Apakah anda ingin membatalkan transaksi?')"> CANCELED </button>
             </form>
+
             <?php endif; ?>
         <?php endforeach; ?>   
         </div>                                                            
