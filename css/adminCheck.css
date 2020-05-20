@@ -87,18 +87,17 @@ nav a.daftar-nav , nav a.kat-nav{
 /* PROFILE */
 div#profile{
     cursor: pointer;
-    height: 80%;
+    line-height: 1px;
     display: flex;
     color: #2c3e50;
     justify-content: center;
-    align-items: center;
+    text-align: center;
     flex-direction: column;
     border: 1px solid #2c3e50;
     border-radius: 50%;
-    padding: 2px 10px;
+    padding: 5px;
 }
 div#profile p{
-    margin: 0;
     font-size: small;
     text-transform: uppercase;
 }
@@ -111,10 +110,11 @@ header nav .pemesanan-nav , header nav .keranjang-nav{
 
 /* Main area */
 main#homepage{
+    padding: 0 15px;
+    box-sizing: border-box;
     flex-grow: 4;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     background-color: #9b59b6;
 }
 
@@ -126,67 +126,50 @@ main section#kategori-signup{
     transform-origin: top;
     transform: scaleY(0);
     transition: all .5s;
-    flex-grow: 1;
+    height: 70px;
+    margin-bottom: 5px;
     background-color: #e17055;
+}
+main section#kategori-signup a{
+    text-decoration: none;
+    color:  #2c3e50;
+    font-weight: normal;
+}
+main section#kategori-signup a:hover{
+    font-weight: bold;
 }
 main section#kategori-signup.show{
     transform: scaleY(1);
 }
-main #kategori-signup a{
-    color: #2c3e50;
-    text-decoration: none;
-}
-main #kategori-signup a:hover{
-    font-weight: bolder;
-}
 
-main section#konfirmasi-pembayaran{
-    flex-grow: 5;
-    display: flex;
-}
-main section#konfirmasi-pembayaran form{
-    margin: 0 auto;
+main#homepage section#container-admin{
     display: flex;
     flex-direction: column;
 }
-main section#konfirmasi-pembayaran form input{
-    background: transparent;
+main#homepage section#container-admin form input{
+    background-color: transparent;
+    border: 1px solid #2c3e50;
+    color: black;
     font-family: 'Poppins', sans-serif;
-    font-size: medium;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+main#homepage section#container-admin form button{
+    background-color: #2c3e50;
+    cursor: pointer;
+    padding: 4px 10px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 20px;
+    color: #9b59b6;
+    font-weight: bold;
+    border: 1px solid #2c3e50;
+}
+main#homepage section#container-admin form input::placeholder{
+    color:  black;
+}
+table, th, tr, td{
     text-align: center;
     border: 1px solid #2c3e50;
-    border-radius: 25px;
-    padding: 5px 0;
-}
-main section#konfirmasi-pembayaran form input#bukti{
-    all:  initial;
-    font-family: 'Poppins', sans-serif;
-    font-size: medium;
-    text-align: center;
-}
-main section#konfirmasi-pembayaran form button{
-    cursor: pointer;
-    margin: 0 auto;
-    box-shadow: 0px 0px 0px 0px #e17055;
-    background-color: #2c3e50;
-    color: #9b59b6;
-    font-size: large;
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-    border: 1px solid transparent;
-    border-radius: 30px;
-    width: 150px;
-    padding: 5px 15px;
-    transition: all .5s;
-}
-main section#konfirmasi-pembayaran form select#jenis{
-    background: transparent;
-    font-family: 'Poppins', sans-serif;
-    color: black;
-    font-weight: bold;
-    padding: 5px 10px;
-    border: 2px solid black;
-    border-radius: 20px;
 }
 

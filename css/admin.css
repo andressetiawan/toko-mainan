@@ -54,7 +54,7 @@ header nav {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    flex-grow: .55;
+    height: 70px;
     background-color: #e17055;
 }
 input#search{
@@ -145,7 +145,7 @@ main#homepage section#container-admin{
     flex-grow: 5;
 }
 main section#container-admin section#input-admin{
-    align-items: center;
+    
     display: flex;
     flex-grow: 1;
 }

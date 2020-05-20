@@ -76,7 +76,7 @@ $id_alamat_user = $userData [0]['id_alamat'];
         <nav>
             <a id="kat-nav" class="kat-nav">Kategori</a>
             <a href="admin.php" >Home</a>
-            <a class="pemesanan-nav" >Pemesanan</a>
+            <a href="adminCheck.php"class="pemesanan-nav" >Cek Pemesanan</a>
             <!-- Searching -->
             <form action="admin.php" method="post">
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
