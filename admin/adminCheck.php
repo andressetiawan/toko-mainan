@@ -8,32 +8,21 @@ require '../include/functions.php';
 $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
 
-if(isset($_POST['tombol'])){
-    var_dump($_POST);
-    //KALAU UDAH KASIH BUKTI PEMBAYARAN
-    if($_POST['filter'] == 1){
-        $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran,bukti_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND bukti_pembayaran IS NOT NULL";
-        $details = query($query);
-    }
-    //KALAU MASIH CHECKING
-    else if($_POST['filter'] == 2){
-        $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran,bukti_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND status_pembayaran = 'Approved'";
-        $details = query($query);
-    }
-    //KALAU DAH DI APPROVED
-    else if($_POST['filter'] == 3){
-        $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran,bukti_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND status_pembayaran = 'Checking'";
-        $details = query($query);
-    }
-
-    else {
-        header("Location: adminCheck.php");
-    }
-} else {
-    $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran";
-$details = query($query);
+if(isset($_POST['tombol']) && isset($_POST['transaksi'])){
+    $id_transaksi = $_POST['transaksi'];
+    $query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
+    $details = query($query);
+    $halaman = count($details);
 }
-
+else {
+    $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran ORDER BY id_pembayaran DESC";
+    $details = query($query);
+    $halaman = count($details);
+}
+if($halaman == 0){
+    $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran ORDER BY id_pembayaran DESC";
+    $details = query($query);
+}
 //SEARCH
 $categories = query("SELECT * FROM kat_produk");
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
@@ -90,35 +79,30 @@ if(isset($_POST['btn-search'])){
                 <?php endforeach;?>
             </section>
         <section id="container-admin">
-
         <form action="" method="post">
-            <input type="radio" name="filter" id="bukti" value="1"> Bukti pembayaran
-            <input type="radio" name="filter" id="approve" value="2" > Approved
-            <input type="radio" name="filter" id="check" value="3" > Checking <br>
-            <input type="text" name="transaksi" id="transaksi">
+            <label style="font-size: larger" for="transaksi"><b>Masukan no transaksi : </b></label> <br>
+            <input type="number" name="transaksi" id="transaksi" placeholder="Masukan no transaksi">
             <button type="submit" name="tombol">SEARCH</button>
         </form>
-            <table>
-                <h2>Data transaksi</h2>
-                <thead>
-                    <th>ID Transaksi</th>
-                    <th>Nama Lengkap</th>
-                    <th>Nama Produk</th>
-                    <th>Jumlah</th>
-                    <th style="width: 150px">Harga Produk</th>
-                    <th>Jenis Produk</th>
-                    <th>Jenis Pengiriman</th>
-                    <th>Jenis Pembayaran</th>
-                    <th>Status Pembayaran</th>
-                </thead>
-                <tbody>
-                    <?php foreach($details as $detail) : ?>
+        <table>
+            <thead>
+                <th>ID Transaksi</th>
+                <th>Nama Lengkap</th>
+                <th>Nama Produk</th>
+                <th style="width: 155px">Total Harga</th>
+                <th>Jenis Produk</th>
+                <th>Jenis Pengiriman</th>
+                <th>Jenis Pembayaran</th>
+                <th>Status Pembayaran</th>
+            </thead>
+
+            <tbody>
+                <?php foreach($details as $detail) : ?>
                     <tr>
-                        <td > <a href="adminApprove.php" target="_blank"><?= $detail['id_transaksi'] ?></a> </td>
+                        <td > <a href="adminApprove.php?p=<?= $detail['id_transaksi'] ?>" target="_blank"><?= $detail['id_transaksi'] ?></a> </td>
                         <td> <?= $detail['nama'] ?> </td>
                         <td> <?= $detail['nama_produk'] ?> </td>
-                        <td> <?= $detail['jumlah'] ?> </td>
-                        <td style="width: 150px"> <?= rupiah($detail['harga_produk']) ?> </td>
+                        <td style="width: 150px"> <?= rupiah($detail['jumlah']*$detail['harga_produk']) ?> </td>
                         <td> <?= $detail['jenis_produk'] ?> </td>
                         <td> <?= $detail['jenis_pengiriman'] ?> </td>
                         <td> <?= $detail['jenis_pembayaran'] ?> </td>
@@ -126,7 +110,7 @@ if(isset($_POST['btn-search'])){
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
-            </table>
+                </table>                                                                   
         </section>
     </main>
 

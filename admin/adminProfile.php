@@ -170,13 +170,28 @@ $id_alamat_user = $userData [0]['id_alamat'];
 
     <footer></footer>
 
-    <script src=".adminadmin/js/script.js"></script>
     <script>
+        //KATEGORI SCRIPT
         var kat_nav = document.getElementById('kat-nav');
         var kategori = document.getElementById('kategori-signup');
         kat_nav.addEventListener('click', function(){
             kategori.classList.toggle("show");
         })
+        //AJAX SCRIPT
+        var keyword_alamat = document.getElementById('alamatInput');
+        var table_alamat = document.getElementById('tabel-alamat');
+        keyword_alamat.addEventListener('keyup', function(){
+        //Membuat object AJAX
+        var xhr = new XMLHttpRequest;
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200){
+                table_alamat.innerHTML = xhr.responseText;
+            }
+        }
+        //Excecute data
+        xhr.open('GET','../ajax/alamat.php?a='+ keyword_alamat.value ,true);
+        xhr.send();
+        });
     </script>
 </body>
 </html>

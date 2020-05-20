@@ -111,7 +111,7 @@ header nav .pemesanan-nav , header nav .keranjang-nav{
 /* Main area */
 main#homepage{
     box-sizing: border-box;
-    flex-grow: 4;
+    flex-grow: 5;
     display: flex;
     flex-direction: column;
     background-color: #9b59b6;
@@ -145,6 +145,11 @@ main#homepage section#container-admin{
     display: flex;
     padding: 0 15px;
     flex-direction: column;
+}
+main#homepage section#container-admin div#ket{
+    display: flex;
+    flex-direction: column;
+    line-height: 5px;
 }
 main#homepage section#container-admin form input{
     background-color: transparent;
