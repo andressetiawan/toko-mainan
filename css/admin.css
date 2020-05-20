@@ -194,6 +194,15 @@ main section#container-admin section#input-admin button{
     padding: 7px 8px;
     width: 100px;
 }
+main section#container-admin section#input-admin textarea{
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
+    border: 1px solid #121920;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width: 400px;
+    height: 100px;
+}
 main section#container-admin section#input-admin select {
     font-family: 'Poppins', sans-serif;
     background-color: transparent;
@@ -213,7 +222,6 @@ main section#product{
     flex-wrap: wrap;
 }
 main section#product div#box{
-    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -241,4 +249,20 @@ main section#product div#box div#caption a{
     text-decoration: none;
     color: #121920;
 }
-
+main section#product div#box form button{
+    cursor: pointer;
+    box-shadow: 1px 1px 1px 1px rgb(255, 41, 41);
+    background-color: #e2461f;
+    font-size: x-large;
+    color: #9b59b6;
+    font-weight: bolder;
+    border-radius: 50%;
+    padding: 4px 10px;
+    border: 1px solid #e2461f;
+    margin: 0;
+    transition: all .5s;
+}
+main section#product div#box form button:hover{
+    color: #121920;
+    box-shadow: 1px 1px 12px 5px rgb(255, 41, 41);
+}

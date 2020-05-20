@@ -1,7 +1,7 @@
 <?php
 session_start();
 //APAKAH SUDAH LOGIN?
-require 'include/functions.php';
+require '../include/functions.php';
 $id = $_SESSION['id_user'];
 $userData = query("SELECT * FROM user WHERE id_user = '$id'");
 $addresses = query("SELECT * FROM alamat LIMIT 5");
@@ -18,7 +18,7 @@ if(isset($_POST['btn-save'])){
             $_SESSION['nama']=$_POST['user'];
             echo '<script> 
             alert("Data berhasil disimpan");
-            document.location.href = "user.php";
+            document.location.href = "admin.php";
             </script>';
             exit;
         } else {
@@ -26,7 +26,7 @@ if(isset($_POST['btn-save'])){
             $_SESSION['nama']=$_POST['user'];
             echo '<script> 
             alert("Data berhasil disimpan");
-            document.location.href = "user.php";
+            document.location.href = "admin.php";
             </script>';
             exit;
         }
@@ -39,7 +39,7 @@ if(isset($_POST['btn-save'])){
             $_SESSION['nama']=$_POST['user'];
             echo '<script> 
             alert("Data berhasil disimpan");
-            document.location.href = "user.php";
+            document.location.href = "admin.php";
             </script>';
             exit;
         } else {
@@ -47,7 +47,7 @@ if(isset($_POST['btn-save'])){
             $_SESSION['nama']=$_POST['user'];
             echo '<script> 
             alert("Data berhasil disimpan");
-            document.location.href = "user.php";
+            document.location.href = "admin.php";
             </script>';
             exit;
         }
@@ -61,7 +61,7 @@ $id_alamat_user = $userData [0]['id_alamat'];
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./css/signup.css">
+    <link rel="stylesheet" href="../css/signup.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko mainan</title>
@@ -75,15 +75,15 @@ $id_alamat_user = $userData [0]['id_alamat'];
 
         <nav>
             <a id="kat-nav" class="kat-nav">Kategori</a>
-            <a href="user.php" >Home</a>
+            <a href="admin.php" >Home</a>
             <a class="pemesanan-nav" >Pemesanan</a>
             <!-- Searching -->
-            <form action="user.php" method="post">
+            <form action="admin.php" method="post">
                 <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>
             <a href="keranjang.php" class="keranjang-nav" >Keranjang Belanja</a>
-            <a href="./include/logout.php" >Logout</a>
+            <a href="../include/logout.php" >Logout</a>
             <div id="profile">
                 <i id="profile" class="fa fa-user"></i>
                 <p><?= $username ?></p>
@@ -98,7 +98,7 @@ $id_alamat_user = $userData [0]['id_alamat'];
         <section id="main">
             <div id="kategori-signup">
             <?php foreach($categories as $categorie) :?>
-                <a href="user.php?q=<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk'] ?></a>
+                <a href="admin.php?q=<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk'] ?></a>
             <?php endforeach;?>
             </div>
 
@@ -170,7 +170,7 @@ $id_alamat_user = $userData [0]['id_alamat'];
 
     <footer></footer>
 
-    <script src="./js/script.js"></script>
+    <script src=".adminadmin/js/script.js"></script>
     <script>
         var kat_nav = document.getElementById('kat-nav');
         var kategori = document.getElementById('kategori-signup');

@@ -75,6 +75,62 @@ function updateBiasa2($data){
     return mysqli_affected_rows($conn);
 }
 
+function updateProduk($data){
+    global $conn;
+    $nama_produk = $data['nama_produk'];
+    $id_produk = $data['id_produk'];
+    $stok = $data['stok'];
+    $harga_produk = $data['harga_produk'];
+    $kategori = $data['kategori_produk'];
+    $status = $data['status_produk'];
+    $berat_produk=$data['berat_produk'];
+    $gambar_produk = uploadGambarProduk();
+    if($gambar_produk === 0){
+        $keterangan_produk = $data['keterangan_produk'];
+        $query = "UPDATE produk SET nama_produk = '$nama_produk' , stok='$stok', harga_produk='$harga_produk', id_kat_produk='$kategori',status_produk = '$status',berat_produk='$berat_produk', keterangan_produk = '$keterangan_produk' WHERE id_produk='$id_produk'";
+        mysqli_query($conn,$query);
+    } 
+    if($gambar_produk !== 0) {
+        $keterangan_produk = $data['keterangan_produk'];
+        $query = "UPDATE produk SET nama_produk = '$nama_produk' , stok='$stok', harga_produk='$harga_produk', id_kat_produk='$kategori',status_produk = '$status',berat_produk='$berat_produk',gambar_produk='$gambar_produk', keterangan_produk = '$keterangan_produk' WHERE id_produk='$id_produk'";
+        mysqli_query($conn,$query);
+    }
+    return mysqli_affected_rows($conn);
+}
+function uploadGambarProduk(){
+    $namaGambar = $_FILES['gambar_produk']['name'];
+    $ukuranGambar = $_FILES['gambar_produk']['size'];
+    $error = $_FILES['gambar_produk']['error'];
+    $pathGambar = $_FILES['gambar_produk']['tmp_name'];
+
+    //FILE SUDAH DIMASUKAN ATAU BELUM
+    if($error === 4){
+        return 0;
+    }
+
+    //CEK EKTERNSI FILE
+    $formatGambar=['jpg','jpeg','png'];
+    $formatBukti=explode('.',$namaGambar);
+    $formatBukti = strtolower(end($formatBukti));
+    if(!in_array($formatBukti,$formatGambar)){
+        echo '<script>
+        alert("Yang anda upload bukan gambar");
+        </script>';
+        return 0;
+    }
+
+    //KALAU FILE BESAR BANGET
+    $ukuranFileByte = 30000000; //30MB
+    if($ukuranGambar > $ukuranFileByte){
+        echo '<script>
+        alert("Ukuran file terlalu besar");
+        </script>';
+        return false;
+    }
+    move_uploaded_file($pathGambar,'../img/'.$namaGambar);
+    return $namaGambar;
+}
+
 //HAPUS DATA
 function hapus($data){
     global $conn;
@@ -83,7 +139,13 @@ function hapus($data){
     mysqli_query($conn,$query);
     return mysqli_affected_rows($conn);
 }
-
+function hapusProduct($data){
+    global $conn;
+    $id_produk=htmlspecialchars($data['id_produk']);
+    $query="DELETE FROM produk WHERE id_produk = $id_produk";
+    mysqli_query($conn,$query);
+    return mysqli_affected_rows($conn);
+}
 //UPDATE AUTO UPDATE STOK
 function updateStok($data){
 global $conn;
