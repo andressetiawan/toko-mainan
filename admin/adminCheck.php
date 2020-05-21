@@ -28,7 +28,6 @@ if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
     $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%' ORDER BY id_produk DESC");
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

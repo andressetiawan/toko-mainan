@@ -1,4 +1,5 @@
 <?php
+//KONEKSI DATABASE
 $username = "root";
 $password = '';
 $host = 'localhost';

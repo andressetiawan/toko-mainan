@@ -1,4 +1,11 @@
 <?php
+//APAKAH SUDAH LOGIN?
+if(isset($_SESSION['login'])){
+    header('Location: user.php');
+} 
+else if (isset($_SESSION['masuk'])) {
+    header('Location: admin/admin.php');
+}
 require 'include/functions.php';
 $categories = query("SELECT * FROM kat_produk");
 $addresses = query("SELECT * FROM alamat LIMIT 5");

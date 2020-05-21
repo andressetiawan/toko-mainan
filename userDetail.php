@@ -1,5 +1,9 @@
 <?php
 session_start();
+//APAKAH SUDAH LOGIN?
+if(!$_SESSION['login']){
+    header('Location: index.php');
+}
 
 require './include/functions.php';
 $categories = query("SELECT * FROM kat_produk");

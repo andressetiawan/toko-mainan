@@ -1,23 +1,26 @@
 <?php
 session_start();
 //APAKAH SUDAH LOGIN?
+//SEBAGAI USER
 if(isset($_SESSION['login'])){
     header('Location: user.php');
 } 
+//SEBAGAI ADMIN
 else if (isset($_SESSION['masuk'])) {
     header('Location: admin/admin.php');
 }
+
 require 'include/functions.php';
 //TAMPILKAN SEMUA KATEGORI
 $categories = query("SELECT * FROM kat_produk");
-//TAMPILKAN SEMUA PRODUK
+//TAMPILKAN SEMUA PRODUK YANG STOK READY
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
     $products = query("SELECT*FROM produk WHERE status_produk = 'Ready'");
 }
 //TAMPILKAN SEMUA PRODUK BERDASARKAN ID_KAT_PRODUK
 if(isset($_GET['q'])){
     $keyword = $_GET['q'];
-    $products = query("SELECT*FROM produk WHERE id_kat_produk='$id' AND status_produk = 'Ready'");
+    $products = query("SELECT*FROM produk WHERE id_kat_produk='$keyword' AND status_produk = 'Ready'");
 }
 //TAMPILKAN SEMUA PRODUK BERDASARKAN NAMA PRODUK
 if(isset($_POST['btn-search'])){
@@ -142,6 +145,7 @@ if(isset($_POST['login'])){
 
     <script src="./js/script.js"></script>
     <script>
+    //KATEGORI PRODUK
         var kat_nav = document.getElementById('kat-nav');
         var kategori = document.getElementById('kategori-index');
         kat_nav.addEventListener('click', function(){

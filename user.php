@@ -19,19 +19,13 @@ if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
     $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%' AND status_produk = 'Ready'");
 }
-
-$addresses = query("SELECT * FROM alamat LIMIT 5");
-if(isset($_POST['btn-daftar'])){
-    if(signup($_POST) > 0){
-        echo '<script> 
-        alert("Registrasi berhasil") 
-        document.location.href = "index.php";
-        </script>';
+if(isset($_POST['btn-lihat'])){
+    $hargaMin = $_POST['hargaMin'];
+    $hargaMax = $_POST['hargaMax'];
+    if($hargaMax < $hargaMin){
+        echo "<script> alert('Harga maximum harus lebih besar dari harga minimum'); </script>";
     } else {
-        echo '<script> 
-        alert("Registrasi gagal") 
-        document.location.href = "signup.php";
-        </script>';
+    $products = query("SELECT * FROM produk WHERE harga_produk BETWEEN '$hargaMin' AND '$hargaMax'");
     }
 }
 
@@ -72,11 +66,21 @@ if(isset($_POST['btn-daftar'])){
 
 
     <main id="homepage">
-            <section id="kategori-signup">
-                <?php foreach($categories as $categorie) :?>
-                    <a href="user.php?q=<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk'] ?></a>
-                <?php endforeach;?>
-            </section>
+    <section id="tools">
+            <form action="" method="post">
+                <label>Harga Minimum </label>
+                <input name="hargaMin" type="number" required> </input>
+                <label>Harga Maximum </label>
+                <input name="hargaMax" type="number" required> </input>
+                <button type="submit" name="btn-lihat" id="btn-lihat" > SEARCH </button>
+            </form>
+        </section>
+
+        <section id="kategori-signup">
+            <?php foreach($categories as $categorie) :?>
+                <a href="user.php?q=<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk'] ?></a>
+            <?php endforeach;?>
+        </section>
 
         <section id="product">
         <?php foreach($products as $product) : ?>

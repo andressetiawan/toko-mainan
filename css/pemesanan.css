@@ -58,14 +58,6 @@ header nav {
     height: 70px;
     background-color: #e17055;
 }
-input#search{
-    color: #2c3e50;
-    height: 25px;
-    padding: 0px 10px;
-    border-radius: 15px;
-    border: 1px solid #2c3e50;
-    background-color: transparent;
-}
 button#search{
     cursor: pointer;
     font-size: medium;
@@ -74,15 +66,22 @@ button#search{
     border: none;
     border-radius: 50%;
 }
-input#search::placeholder{
-    color: #2c3e50;
-}
 header nav a{
     text-decoration: none;
     color: #2c3e50;
 }
 nav a.daftar-nav , nav a.kat-nav , nav a.pemesanan-nav , nav a.keranjang-nav{
     cursor: pointer;
+}
+nav form select#filter{
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid #2c3e50;
+    color: #2c3e50;
+    font-size: 15px;
+    padding: 4px 20px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 25px;
 }
 
 /* Main area */

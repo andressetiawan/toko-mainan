@@ -101,7 +101,7 @@ if(isset($_POST['btn-confirm'])){
                         <p>Total yang harus dibayar : </p>
                         <input type="text" name="harga" value="<?= rupiah($userData[0]['jumlah']*$userData[0]['harga_produk']) ?>" readonly>
 
-                        <p>Upload Bukti Pmebayaran disini : </p>
+                        <p>Upload Bukti Pembayaran disini : </p>
                         <input type="file" name="bukti" id="bukti">
                         <br>
                         <button type="submit" name="btn-confirm" id="btn-confirm" > Confirm </button>

@@ -1,5 +1,12 @@
 <?php
 session_start();
+//APAKAH SUDAH LOGIN?
+if(isset($_SESSION['login'])){
+    header('Location: user.php');
+} 
+else if (isset($_SESSION['masuk'])) {
+    header('Location: admin/admin.php');
+}
 require 'include/functions.php';
 // SEMUA KAT_PRODUK YANG ADA
 $categories = query("SELECT * FROM kat_produk");
@@ -112,7 +119,9 @@ if(isset($_POST['login'])){
             <img src="./img/<?= $product['gambar_produk'] ?>" alt="<?= $product['gambar_produk'] ?>" width="200">
             <h2><?= $product['nama_produk'] ?></h2>
             <h3>Keterangan Produk</h3>
-            <p><?php echo $product['keterangan_produk'] ?></p>
+            <div id="ket">
+                <p><?php echo $product['keterangan_produk'] ?></p>
+            </div>
             <h5>Harga Produk </h5> <h3><?= rupiah($product['harga_produk']) ?></h3>
             <h5>Kategori Produk </h5> <h3><?= $product['jenis_produk'] ?></h3>
             <h5>Stok Produk </h5> <h3><?= $product['stok'] ?></h3>

@@ -1,6 +1,5 @@
 <?php
 require 'functions.php';
-
 if(isset($_GET['c'])){
     global $conn;
     $id_pengiriman = $_GET['c'];

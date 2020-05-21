@@ -4,21 +4,56 @@ session_start();
 if(!$_SESSION['login']){
     header('Location: index.php');
 }
+
 require './include/functions.php';
 $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
 $categories = query("SELECT * FROM kat_produk");
+$payments = query("SELECT * FROM kat_pembayaran");
+
+$query = "SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC";
 
 //TAMPILKAN PEMBAYARAN PUNYA USER
-$details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+$details = query($query);
 
+//KATEGORI PEMESANAN
 if(isset($_GET['q'])){
-    $keyword = $_GET['q'];
-    $products = query("SELECT * FROM produk WHERE id_kat_produk='$keyword'");
+    $id = $_SESSION['id_user'];
+    $kategori = $_GET['q'];
+    $details = query("SELECT DISTINCT * FROM user NATURAL JOIN produk NATURAL JOIN transaksi NATURAL JOIN kat_pembayaran NATURAL JOIN kat_pengiriman NATURAL JOIN pembayaran NATURAL JOIN pengiriman WHERE transaksi.id_produk=produk.id_produk AND id_kat_produk='$kategori' AND user.id_user = '$id'");
 }
+
+//FILTER DATA
 if(isset($_POST['btn-search'])){
-    $keyword = $_POST['search'];
-    $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%'");
+    var_dump($_POST['filter']);
+    //SEMUA METODE PEMBAYARAN TRANSFER
+    if($_POST['filter'] == 1){
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND pembayaran.id_kat_pembayaran = '1' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == 2){
+    //SEMUA METODE PEMBAYARAN OVO
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND pembayaran.id_kat_pembayaran = '2' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "waiting"){
+    //SEMUA STATUS PEMBAYARAN WAITING
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pembayaran = 'waiting' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "Checking"){
+    //SEMUA STATUS PEMBAYARAN CHECKING
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pembayaran = 'Checking' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "Resubmit"){
+    //SEMUA STATUS PEMBAYARAN RESUBMIT
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pembayaran = 'Resubmit' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "Approved"){
+    //SEMUA STATUS PEMBAYARAN APPROVED
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pembayaran = 'Approved' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "Packing"){
+    //SEMUA STATUS PENGIRIMAN PACKING
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pengiriman = 'Packing' AND status_pembayaran = 'Approved' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "Sending"){
+    //SEMUA STATUS PEMBAYARAN WAITING
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pengiriman = 'Sending' AND status_pembayaran = 'Approved' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    } else if($_POST['filter'] == "Arrived"){
+    //SEMUA STATUS PEMBAYARAN WAITING
+    $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND status_pengiriman = 'Arrived' AND status_pembayaran = 'Approved' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+    }
 }
 ?>
 
@@ -41,10 +76,29 @@ if(isset($_POST['btn-search'])){
         <nav>
             <a id="kat-nav" class="kat-nav">Kategori</a>
             <a href="user.php" >Home</a>
-            <a class="pemesanan-nav" >Pemesanan</a>
+            <a href="pemesanan.php" class="pemesanan-nav" >Pemesanan</a>
             <!-- Searching -->
-            <form action="user.php" method="post">
-                <input name="search" id="search" type="text" required placeholder="Cari barang disini"> </input>
+            <form action="pemesanan.php" method="post">
+                <select name="filter" id="filter">
+                    <optgroup label="JENIS PEMBAYARAN" >
+                        <?php foreach($payments as $payment) : ?>
+                        <option value="<?= $payment['id_kat_pembayaran'] ?>"><?= $payment['jenis_pembayaran'] ?></option>
+                        <?php endforeach;?>
+                    </optgroup>
+
+                    <optgroup label="STATUS PEMBAYARAN" >
+                        <option value="waiting">WAITING</option>
+                        <option value="Checking">CHECKING</option>
+                        <option value="Resubmit">RESUBMIT</option>
+                        <option value="Approved">APPROVED</option>
+                    </optgroup>
+
+                    <optgroup label="STATUS PENGIRIMAN" >
+                        <option value="Packing">PACKING</option>
+                        <option value="Sending">SENDING</option>
+                        <option value="Arrived">ARRIVED</option>
+                    </optgroup>
+                </select>
                 <button name="btn-search" id="search" type="submit"><i class="fa fa-search"></i> </button>
             </form>
             <a href="keranjang.php" class="keranjang-nav" >Keranjang Belanja</a>
@@ -60,7 +114,7 @@ if(isset($_POST['btn-search'])){
     <aside>
         <section id="kategori-signup">
             <?php foreach($categories as $categorie) :?>
-                <a href="user.php?q=<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk'] ?></a>
+                <a href="pemesanan.php?q=<?= $categorie['id_kat_produk']?>"><?= $categorie['jenis_produk'] ?></a>
             <?php endforeach;?>
         </section>  
     </aside>
