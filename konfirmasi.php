@@ -8,12 +8,12 @@ require 'include/functions.php';
 //PEMBAYARAN
 $payments = query("SELECT * FROM kat_pembayaran");
 //PENGIRIMAN
-$senders = query("SELECT * FROM pengiriman");
+$senders = query("SELECT * FROM kat_pengiriman");
 $tanggal_sekarang = date('Y-m-d');
 $username = $_SESSION['nama'];
 $id = $_SESSION['id_user'];
-$id_transaksi = $_POST['id_transaksi'];
 
+$id_transaksi = $_POST['id_transaksi'];
 //DETAIL YANG INGIN DITAMPILKAN
 $details = query("SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,id_transaksi,gambar_produk,nama_produk,jumlah,harga_produk,stok,produk.id_produk FROM transaksi,produk,user WHERE transaksi.id_produk=produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_user='$id' AND id_transaksi='$id_transaksi'");
 
@@ -101,7 +101,7 @@ if(isset($_POST['btn-search'])){
                         <h4>Jenis pengiriman : </h4>
                         <select name="pengiriman" id="jenis">
                             <?php foreach($senders as $sender) : ?>
-                            <option value="<?=$sender['id_pengiriman']?>"><?=$sender['jenis_pengiriman']?></option>
+                            <option value="<?=$sender['id_kat_pengiriman']?>"><?=$sender['jenis_pengiriman']?></option>
                             <?php endforeach;?>
                         </select> <br>
 

@@ -27,7 +27,7 @@ body{
 }
 /* Header website */
 header{
-    flex-grow: 1;
+    flex-grow: .5;
     display: flex;
     flex-direction: column;
     background-color: #fdcb6e;
@@ -149,8 +149,52 @@ main#homepage section#container-admin{
 main#homepage section#container-admin div#ket{
     display: flex;
     flex-direction: column;
-    line-height: 5px;
+    line-height: 1px;
 }
+
+main#homepage section#container-admin div#ket a#btn-download{
+    text-decoration: none;
+    margin-top: 10px;
+    background-color: #2c3e50;
+    cursor: pointer;
+    width: 100px;
+    font-size: small;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 20px;
+    text-align: center;
+    padding: 15px 3px;
+    font-weight: bold;
+    color: #9b59b6;
+    border: 1px solid #2c3e50;
+}
+main#homepage section#container-admin div#ket a#btn-download:hover{
+    background-color: #3838ff;
+    border: 1px solid #3838ff;
+    color: white;
+}
+
+main#homepage section#container-admin div#ket form button{
+    margin-top: 10px;
+    transition: all .5s;
+}
+main#homepage section#container-admin div#ket form button#approved:hover,
+main#homepage section#container-admin div#ket form button#sending:hover{
+    background-color: #34cc34;
+    border: 1px solid #34cc34;
+    color: white;
+}
+
+main#homepage section#container-admin div#ket form button#resubmit:hover{
+    background-color: #e6b516;
+    border: 1px solid #e6b516;
+    color: white;
+}
+main#homepage section#container-admin div#ket form button#canceled:hover , main#homepage section#container-admin div#ket button:hover{
+    background-color: #eb3e1f;
+    border: 1px solid #eb3e1f;
+    color: white;
+}
+
 main#homepage section#container-admin form input{
     background-color: transparent;
     border: 1px solid #2c3e50;
@@ -160,8 +204,9 @@ main#homepage section#container-admin form input{
     border-radius: 20px;
     margin-bottom: 10px;
 }
-main#homepage section#container-admin form button{
+main#homepage section#container-admin form button , main#homepage section#container-admin div#ket button{
     background-color: #2c3e50;
+    margin-right: 5px;
     cursor: pointer;
     padding: 4px 10px;
     font-family: 'Poppins', sans-serif;
@@ -169,6 +214,10 @@ main#homepage section#container-admin form button{
     color: #9b59b6;
     font-weight: bold;
     border: 1px solid #2c3e50;
+    transition: all .5s;
+}
+main#homepage section#container-admin div#ket button{
+    width: 100px;
 }
 main#homepage section#container-admin form input::placeholder{
     color:  black;

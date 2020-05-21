@@ -10,7 +10,7 @@ $id_user = $_SESSION['id_user'];
 $categories = query("SELECT * FROM kat_produk");
 
 //TAMPILKAN PEMBAYARAN PUNYA USER
-$details = query("SELECT bukti_pembayaran,pembayaran.id_transaksi,nama_produk,jenis_pembayaran,jumlah,harga_produk,status_pembayaran,jenis_pengiriman,pembayaran.id_kat_pembayaran FROM transaksi,produk,kat_pembayaran,pembayaran,pengiriman WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
+$details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");
 
 if(isset($_GET['q'])){
     $keyword = $_GET['q'];
@@ -78,9 +78,10 @@ if(isset($_POST['btn-search'])){
                 </div>
 
                 <div id="tool">
+
                     <form action="pembayaran.php" method="post">
                         <!-- KALAU BUKTI PEMBAYARAN ADA TIDAK USAH TAMPILKAN KONFIRMASI PEMBAYARAN -->
-                        <?php if($detail['bukti_pembayaran'] == NULL && $detail['id_kat_pembayaran']=="1") : ?>
+                        <?php if(is_null($detail['bukti_pembayaran']) && $detail['id_kat_pembayaran']=="1") : ?>
                             <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
                             <p>Transfer</p>
                             <p><b>BCA 0000-88-0000</b></p>
@@ -88,7 +89,7 @@ if(isset($_POST['btn-search'])){
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
                         <?php endif; ?>
 
-                        <?php if($detail['bukti_pembayaran'] == NULL && $detail['id_kat_pembayaran']=="2")  : ?>
+                        <?php if(is_null($detail['bukti_pembayaran']) && $detail['id_kat_pembayaran']=="2")  : ?>
                             <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
                             <p>OVO Barcode</p>
                             <img src="./img/OVO.jpg" alt="Ovo Barcode" width="100">
@@ -96,15 +97,7 @@ if(isset($_POST['btn-search'])){
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
                         <?php endif; ?>
 
-                        <?php if($detail['bukti_pembayaran'] !== NULL &&  $detail['id_kat_pembayaran']=="2" && $detail['status_pembayaran'] == "Resubmit") :?>
-                            <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
-                            <p>OVO Barcode</p>
-                            <img src="./img/OVO.jpg" alt="Ovo Barcode" width="100">
-                            <p>a.n Darryl Nathanael</p>
-                            <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
-                        <?php endif; ?>
-
-                        <?php if($detail['bukti_pembayaran'] !== NULL &&  $detail['id_kat_pembayaran']=="1" && $detail['status_pembayaran'] == "Resubmit") :?>
+                        <?php if(!is_null($detail['bukti_pembayaran']) &&  $detail['id_kat_pembayaran']=="1" && $detail['status_pembayaran'] == "Resubmit") :?>
                             <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
                             <p>Transfer</p>
                             <p><b>BCA 0000-88-0000</b></p>
@@ -112,10 +105,42 @@ if(isset($_POST['btn-search'])){
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
                         <?php endif; ?>
 
-                        <?php if($detail['bukti_pembayaran'] !== NULL) :?>
+                        <?php if(!is_null($detail['bukti_pembayaran']) &&  $detail['id_kat_pembayaran']=="2" && $detail['status_pembayaran'] == "Resubmit") :?>
+                            <input type="hidden" name="id_transaksi" value="<?= $detail['id_transaksi'] ?>">
+                            <p>OVO Barcode</p>
+                            <img src="./img/OVO.jpg" alt="Ovo Barcode" width="100">
+                            <p>a.n Darryl Nathanael</p>
+                            <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
+                        <?php endif; ?>
+
+                        <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pengiriman']!=="Arrived") :?>
                             <h3 style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></h3>
                         <?php endif; ?>
+
+                        <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pengiriman']=="Arrived") :?>
+                            <h3 style="text-transform: uppercase"><?= $detail['status_pengiriman'] ?></h3>
+                        <?php endif; ?>
                     </form>
+
+                    <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pembayaran'] === "Approved" && $detail['status_pengiriman'] === "Packing") :?>
+                        <div id="pengiriman">
+                            <div id="status-box">
+                            <p>Lastest Update</p>
+                            <p style="font-size: large"> <b><?= $detail['status_pengiriman'] ?></b></p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pembayaran'] === "Approved" && $detail['status_pengiriman'] === "Sending") :?>
+                        <div id="pengiriman">
+                            <div id="status-box">
+                            <p>Lastest Update</p>
+                            <p style="font-size: large"> <b><?= $detail['status_pengiriman'] ?></b></p>
+                            <a  href="include/confirm.php?c=<?= $detail['id_pengiriman'] ?>">Konfirmasi pengiriman</a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
             </div>
             <?php endforeach;?>
@@ -123,8 +148,6 @@ if(isset($_POST['btn-search'])){
     </main>
 
     <footer></footer>
-
-    <script src="./js/script.js"></script>
     <script>
         var kat_nav = document.getElementById('kat-nav');
         var kategori = document.getElementById('kategori-signup');

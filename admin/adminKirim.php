@@ -7,20 +7,20 @@ if (!$_SESSION['masuk']) {
 require '../include/functions.php';
 $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
-$id_transaksi = $_GET['p'];
+$id_pengiriman = $_GET['q'];
 
-$query = "SELECT bukti_pembayaran,transaksi.id_produk, id_pembayaran, pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama,nama_produk,jumlah,harga_produk,id_pengiriman,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,pengiriman,kat_pengiriman,produk,pembayaran,kat_pembayaran,user WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk=produk.id_produk AND transaksi.id_user = user.id_user AND transaksi.id_transaksi=pengiriman.id_transaksi AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
+$query = "SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,id_pengiriman,pembayaran.id_transaksi,nama_produk,jumlah,jenis_pengiriman,bukti_pembayaran,status_pengiriman,status_pembayaran FROM transaksi,user,produk,pengiriman,kat_pengiriman,pembayaran WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_transaksi = pengiriman.id_transaksi AND transaksi.id_user = user.id_user AND transaksi.id_produk = produk.id_produk AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND id_pengiriman = '$id_pengiriman'";
 $details = query($query);
-$id_pembayaran = $details[0]['id_pembayaran'];
-if(isset($_POST['approved'])){
-    if($details[0]['status_pembayaran'] == "Approved"){
-    echo "<script> alert('Pembayaran sudah di approved');
-    document.location.href = 'adminCheck.php'; </script>";
+
+if(isset($_POST['sending'])){
+    if($details[0]['status_pengiriman'] == "Sending"){
+    echo "<script> alert('Barang sedang dikirim');
+    document.location.href = 'adminPengiriman.php'; </script>";
     } else {
     global $conn;
-    mysqli_query($conn,"UPDATE pembayaran SET status_pembayaran = 'Approved' WHERE id_pembayaran ='$id_pembayaran'");
-    echo "<script> alert('Pembayaran berhasil di approved');
-    document.location.href = 'adminCheck.php'; </script>";
+    mysqli_query($conn,"UPDATE pengiriman SET status_pengiriman = 'Sending' WHERE id_pengiriman ='$id_pengiriman'");
+    echo "<script> alert('Barang dikirim');
+    document.location.href = 'adminPengiriman.php'; </script>";
     }
     exit;
 }
@@ -39,12 +39,11 @@ if(isset($_POST['resubmit'])){
 }
 
 if(isset($_POST['canceled'])){
-    global $conn ,$id_transaksi;
-    $id_produk = $details [0]['id_produk'];
+    global $conn;
     $jumlah = $details[0]['jumlah'];
+    $id_produk = $details[0]['id_produk'];
     $query = "UPDATE produk SET stok = stok + '$jumlah' WHERE id_produk = '$id_produk' ;";
-    $query .= "DELETE FROM pembayaran WHERE id_transaksi ='$id_transaksi';";
-    $query .= "DELETE FROM pengiriman WHERE id_transaksi ='$id_transaksi';";
+    $query .= "DELETE FROM pembayaran WHERE id_pembayaran ='$id_pembayaran';";
     mysqli_multi_query($conn,$query);
     echo "<script> alert('Transaksi dibatalkan');
     document.location.href = 'adminCheck.php'; </script>";
@@ -79,7 +78,7 @@ if(isset($_POST['btn-search'])){
     <header> 
         <div id="banner">
             <marquee>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</marquee>
-            <h1>CEK DATA PEMESANAN</h1>
+            <h1>CEK DATA PENGIRIMAN</h1>
         </div>
 
         <nav>
@@ -107,45 +106,39 @@ if(isset($_POST['btn-search'])){
                 <?php endforeach;?>
             </section>
         <section id="container-admin">
-        <form action="adminCheck.php" method="post">
-            <label style="font-size: larger" for="transaksi"><b>CEK DATA PEMESANAN : </b></label> <br>
-            <input type="number" name="transaksi" id="transaksi" placeholder="Masukan no transaksi">
+        <form action="adminPengiriman.php" method="post">
+            <label style="font-size: larger" for="transaksi"><b>CEK DATA PENGIRIMAN : </b></label> <br>
+            <input type="number" name="transaksi" id="transaksi" placeholder="Masukan no transaksi" required>
             <button type="submit" name="tombol">SEARCH</button>
         </form>
         <div id="ket">
         <?php foreach($details as $detail) : ?>
-            <h3>ID Transaksi</h3>
-            <p ><?= $detail['id_transaksi'] ?></p>
-
             <h3>Nama Lengkap</h3>
             <p> <?= $detail['nama'] ?> </p>
-
+            <h3>Jumlah</h3>
+            <p> <?= $detail['jumlah'] ?> </p>
             <h3>Nama Produk</h3>
             <p> <?= $detail['nama_produk'] ?> </p>
-            <h3>Total Harga</h3>
-            <p><?= rupiah($detail['jumlah']*$detail['harga_produk']) ?> </p>
             <h3>Jenis Pengiriman</h3>
             <p> <?= $detail['jenis_pengiriman'] ?> </p>
-            <h3>Jenis Pembayaran</h3>
-            <p> <?= $detail['jenis_pembayaran'] ?> </p>
+            <h3>Status pengiriman</h3>
+            <p> <?= $detail['status_pengiriman'] ?> </p>
+            <h3>Status pembayaran</h3>
+            <p><?= $detail['status_pembayaran'] ?> </p>
             <h3>Bukti Pembayaran</h3>
             <?php if(is_null($detail['bukti_pembayaran'])) : ?>
                 <a href="../img/no_photo.png" target="_blank">
-                <img src="../img/no_photo.png" width="130" style="margin-bottom: 5px">
-                </a> <br>
-                <form action="" method="post">
-                <button type="submit" id="canceled" name="canceled" onclick="return confirm('Apakah anda ingin membatalkan transaksi?')"> CANCELED </button>
-                </form>
+                <img src="../img/no_photo.png" width="130">
+                </a>
             <?php else : ?>
                 <a href="../pembayaran/<?= $detail['bukti_pembayaran'];?>" target="_blank">
                 <img src="../pembayaran/<?= $detail['bukti_pembayaran'];?>" width="120">
                 </a>
-            <form action="" method="post">
-                <button type="submit" id="approved" name="approved"> APPROVED </button>
-                <button type="submit" id="resubmit" name="resubmit"> RESUBMIT </button>
-                <button type="submit" id="canceled" name="canceled" onclick="return confirm('Apakah anda ingin membatalkan transaksi?')"> CANCELED </button>
-            </form>
             <a id="btn-download" href="../pembayaran/<?= $detail['bukti_pembayaran'];?>"target="_blank" download="">DOWNLOAD</a>
+
+            <form action="" method="post">
+                <button type="submit" id="sending" name="sending"> SENDING </button>
+            </form>
 
             <?php endif; ?>
         <?php endforeach; ?>   

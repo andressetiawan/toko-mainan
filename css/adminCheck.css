@@ -27,7 +27,7 @@ body{
 }
 /* Header website */
 header{
-    flex-grow: 1;
+    flex-grow: .5;
     display: flex;
     flex-direction: column;
     background-color: #fdcb6e;

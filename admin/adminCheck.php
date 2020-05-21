@@ -10,20 +10,16 @@ $id_user = $_SESSION['id_user'];
 
 if(isset($_POST['tombol']) && isset($_POST['transaksi'])){
     $id_transaksi = $_POST['transaksi'];
-    $query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
+    $query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama,nama_produk,jumlah,harga_produk,jenis_pembayaran,status_pembayaran FROM transaksi,produk,pembayaran,kat_pembayaran,user WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk=produk.id_produk AND transaksi.id_user = user.id_user AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi' ORDER BY id_pembayaran DESC";
     $details = query($query);
-    $halaman = count($details);
 } else {
-    $query = "SELECT pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama, nama_produk,jumlah,harga_produk,jenis_produk,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,user,produk,kat_pembayaran,pembayaran,pengiriman,kat_produk WHERE produk.id_kat_produk = kat_produk.id_kat_produk AND transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk = produk.id_produk AND transaksi.id_user=user.id_user AND transaksi.id_pengiriman = pengiriman.id_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran ORDER BY id_pembayaran DESC";
+    $query = "SELECT id_pembayaran,pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama,nama_produk,jumlah,harga_produk,jenis_pembayaran,status_pembayaran FROM transaksi,produk,pembayaran,kat_pembayaran,user WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk=produk.id_produk AND transaksi.id_user = user.id_user AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran ORDER BY id_pembayaran DESC";
     $details = query($query);
 }
 
 
 //SEARCH
 $categories = query("SELECT * FROM kat_produk");
-if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
-    $products = query("SELECT*FROM produk ORDER BY id_produk DESC LIMIT 0,3");
-}
 if(isset($_GET['q'])){
     $id = $_GET['q'];
     $products = query("SELECT*FROM produk WHERE id_kat_produk='$id' ORDER BY id_produk DESC");
@@ -76,7 +72,7 @@ if(isset($_POST['btn-search'])){
             </section>
         <section id="container-admin">
         <form action="" method="post">
-            <label style="font-size: larger" for="transaksi"><b>Masukan no transaksi : </b></label> <br>
+            <label style="font-size: larger" for="transaksi"><b>CEK DATA PEMESANAN : </b></label> <br>
             <input type="number" name="transaksi" id="transaksi" placeholder="Masukan no transaksi" required>
             <button type="submit" name="tombol">SEARCH</button>
         </form>
@@ -85,9 +81,7 @@ if(isset($_POST['btn-search'])){
                 <th>ID Transaksi</th>
                 <th>Nama Lengkap</th>
                 <th>Nama Produk</th>
-                <th style="width: 155px">Total Harga</th>
-                <th>Jenis Produk</th>
-                <th>Jenis Pengiriman</th>
+                <th>Total Harga</th>
                 <th>Jenis Pembayaran</th>
                 <th>Status Pembayaran</th>
             </thead>
@@ -100,12 +94,9 @@ if(isset($_POST['btn-search'])){
                         <td> <?= $detail['nama'] ?> </td>
                         <td> <?= $detail['nama_produk'] ?> </td>
                         <td style="width: 150px"> <?= rupiah($detail['jumlah']*$detail['harga_produk']) ?> </td>
-                        <td> <?= $detail['jenis_produk'] ?> </td>
-                        <td> <?= $detail['jenis_pengiriman'] ?> </td>
                         <td> <?= $detail['jenis_pembayaran'] ?> </td>
                         <td> <b style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></b> </td>
                     </tr>
-                    
                     <?php endforeach; ?>
                 </tbody>
                 </table>                                                                   
