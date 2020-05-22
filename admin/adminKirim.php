@@ -9,7 +9,7 @@ $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
 $id_pengiriman = $_GET['q'];
 
-$query = "SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama, bukti_pembayaran,nama_produk,berat_produk,jumlah,kelurahan,kecamatan,kabupaten,provinsi,jenis_pengiriman,status_pembayaran,status_pengiriman,keterangan,pembayaran.id_transaksi FROM produk,user,pembayaran,pengiriman,kat_pengiriman,transaksi,alamat WHERE produk.id_produk = transaksi.id_produk AND user.id_user = transaksi.id_user AND user.id_alamat = alamat.id_alamat AND transaksi.id_transaksi = pengiriman.id_transaksi AND kat_pengiriman.id_kat_pengiriman = pengiriman.id_kat_pengiriman AND transaksi.id_transaksi = pembayaran.id_transaksi AND id_pengiriman = '$id_pengiriman'";
+$query = "SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,no_hp_user, bukti_pembayaran,nama_produk,berat_produk,jumlah,kelurahan,kecamatan,kabupaten,provinsi,jenis_pengiriman,status_pembayaran,status_pengiriman,keterangan,pembayaran.id_transaksi FROM produk,user,pembayaran,pengiriman,kat_pengiriman,transaksi,alamat WHERE produk.id_produk = transaksi.id_produk AND user.id_user = transaksi.id_user AND user.id_alamat = alamat.id_alamat AND transaksi.id_transaksi = pengiriman.id_transaksi AND kat_pengiriman.id_kat_pengiriman = pengiriman.id_kat_pengiriman AND transaksi.id_transaksi = pembayaran.id_transaksi AND id_pengiriman = '$id_pengiriman'";
 $details = query($query);
 
 if(isset($_POST['sending'])){
@@ -113,8 +113,17 @@ if(isset($_POST['btn-search'])){
         </form>
         <div id="ket">
         <?php foreach($details as $detail) : ?>
-            <h3>Nama Lengkap</h3>
-            <p> <?= $detail['nama'] ?> </p>
+            <div style="display: flex; flex-wrap: wrap;">
+                <div style="margin-right: 15px;">
+                    <h3>Nama Lengkap</h3>
+                    <p> <?= $detail['nama'] ?> </p>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3>No.Handphone</h3>
+                    <p> <?= $detail['no_hp_user'] ?></p>
+                </div>
+            </div>
+
             <div style="display: flex; flex-wrap: wrap;">
                 <div style="margin-right: 15px;">
                     <h3>Nama Produk</h3>

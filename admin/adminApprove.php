@@ -140,13 +140,13 @@ if(isset($_POST['btn-search'])){
                 <a href="../pembayaran/<?= $detail['bukti_pembayaran'];?>" target="_blank">
                 <img src="../pembayaran/<?= $detail['bukti_pembayaran'];?>" width="120">
                 </a>
-            <form action="" method="post">
-                <button type="submit" id="approved" name="approved"> APPROVED </button>
-                <button type="submit" id="resubmit" name="resubmit"> RESUBMIT </button>
-                <button type="submit" id="canceled" name="canceled" onclick="return confirm('Apakah anda ingin membatalkan transaksi?')"> CANCELED </button>
-            </form>
-            <a id="btn-download" href="../pembayaran/<?= $detail['bukti_pembayaran'];?>"target="_blank" download="">DOWNLOAD</a>
-
+                <a id="btn-download" href="../pembayaran/<?= $detail['bukti_pembayaran'];?>"target="_blank" download="">DOWNLOAD</a>
+                <form action="" method="post">
+                    <button type="submit" id="approved" name="approved"> APPROVED </button>
+                    <button type="submit" id="resubmit" name="resubmit"> RESUBMIT </button>
+                    <button type="submit" id="canceled" name="canceled" onclick="return confirm('Apakah anda ingin membatalkan transaksi?')"> CANCELED </button>
+                </form>
+                
             <?php endif; ?>
         <?php endforeach; ?>   
         </div>                                                            

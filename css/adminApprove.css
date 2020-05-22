@@ -176,7 +176,7 @@ main#homepage section#container-admin div#ket a#btn-download:hover{
     color: white;
 }
 
-main#homepage section#container-admin div#ket form button{
+main#homepage section#container-admin div#ket form button#sending{
     transition: all .5s;
     margin-top: 10px;
     width: 120px;
