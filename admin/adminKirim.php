@@ -9,7 +9,7 @@ $username = $_SESSION['nama'];
 $id_user = $_SESSION['id_user'];
 $id_pengiriman = $_GET['q'];
 
-$query = "SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama,id_pengiriman,pembayaran.id_transaksi,nama_produk,jumlah,jenis_pengiriman,bukti_pembayaran,status_pengiriman,status_pembayaran FROM transaksi,user,produk,pengiriman,kat_pengiriman,pembayaran WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_transaksi = pengiriman.id_transaksi AND transaksi.id_user = user.id_user AND transaksi.id_produk = produk.id_produk AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND id_pengiriman = '$id_pengiriman'";
+$query = "SELECT CONCAT(nama_depan,' ',nama_belakang) AS nama, bukti_pembayaran,nama_produk,berat_produk,jumlah,kelurahan,kecamatan,kabupaten,provinsi,jenis_pengiriman,status_pembayaran,status_pengiriman,keterangan,pembayaran.id_transaksi FROM produk,user,pembayaran,pengiriman,kat_pengiriman,transaksi,alamat WHERE produk.id_produk = transaksi.id_produk AND user.id_user = transaksi.id_user AND user.id_alamat = alamat.id_alamat AND transaksi.id_transaksi = pengiriman.id_transaksi AND kat_pengiriman.id_kat_pengiriman = pengiriman.id_kat_pengiriman AND transaksi.id_transaksi = pembayaran.id_transaksi AND id_pengiriman = '$id_pengiriman'";
 $details = query($query);
 
 if(isset($_POST['sending'])){
@@ -115,10 +115,43 @@ if(isset($_POST['btn-search'])){
         <?php foreach($details as $detail) : ?>
             <h3>Nama Lengkap</h3>
             <p> <?= $detail['nama'] ?> </p>
-            <h3>Jumlah</h3>
-            <p> <?= $detail['jumlah'] ?> </p>
-            <h3>Nama Produk</h3>
-            <p> <?= $detail['nama_produk'] ?> </p>
+            <div style="display: flex; flex-wrap: wrap;">
+                <div style="margin-right: 15px;">
+                    <h3>Nama Produk</h3>
+                    <p> <?= $detail['nama_produk'] ?> </p>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3>Berat Produk</h3>
+                    <p> <?= ($detail['berat_produk']*$detail['jumlah'])/1000 ?> KG</p>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3>Jumlah</h3>
+                    <p> <?= $detail['jumlah'] ?> </p>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap;">
+                <div style="margin-right: 15px;">
+                    <h3>Kelurahan</h3>
+                    <p> <?= $detail['kelurahan'] ?> </p>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3>Kecamatan</h3>
+                    <p> <?= $detail['kecamatan'] ?> </p>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3>Kabupaten</h3>
+                    <p> <?= $detail['kabupaten'] ?> </p>
+                </div>
+                <div style="margin-right: 15px;">
+                    <h3>Provinsi</h3>
+                    <p> <?= $detail['provinsi'] ?> </p>
+                </div>
+            </div>
+            <div style="line-height: initial">
+            <h3>Detail Alamat</h3>
+            <p><?= $detail['keterangan'] ?> </p>
+            </div>
             <h3>Jenis Pengiriman</h3>
             <p> <?= $detail['jenis_pengiriman'] ?> </p>
             <h3>Status pengiriman</h3>
@@ -126,21 +159,11 @@ if(isset($_POST['btn-search'])){
             <h3>Status pembayaran</h3>
             <p><?= $detail['status_pembayaran'] ?> </p>
             <h3>Bukti Pembayaran</h3>
-            <?php if(is_null($detail['bukti_pembayaran'])) : ?>
-                <a href="../img/no_photo.png" target="_blank">
-                <img src="../img/no_photo.png" width="130">
-                </a>
-            <?php else : ?>
-                <a href="../pembayaran/<?= $detail['bukti_pembayaran'];?>" target="_blank">
-                <img src="../pembayaran/<?= $detail['bukti_pembayaran'];?>" width="120">
-                </a>
             <a id="btn-download" href="../pembayaran/<?= $detail['bukti_pembayaran'];?>"target="_blank" download="">DOWNLOAD</a>
 
             <form action="" method="post">
                 <button type="submit" id="sending" name="sending"> SENDING </button>
             </form>
-
-            <?php endif; ?>
         <?php endforeach; ?>   
         </div>                                                            
         </section>

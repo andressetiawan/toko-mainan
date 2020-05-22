@@ -25,7 +25,6 @@ if(isset($_GET['q'])){
 
 //FILTER DATA
 if(isset($_POST['btn-search'])){
-    var_dump($_POST['filter']);
     //SEMUA METODE PEMBAYARAN TRANSFER
     if($_POST['filter'] == 1){
     $details = query("SELECT bukti_pembayaran,id_pengiriman,pembayaran.id_kat_pembayaran,pembayaran.id_transaksi,nama_produk,jumlah,harga_produk,jenis_pembayaran,jenis_pengiriman,status_pembayaran,status_pengiriman FROM transaksi,produk,kat_pembayaran,kat_pengiriman,pembayaran,pengiriman WHERE transaksi.id_produk = produk.id_produk AND pembayaran.id_transaksi = transaksi.id_transaksi AND pengiriman.id_transaksi = transaksi.id_transaksi AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND pembayaran.id_kat_pembayaran = '1' AND transaksi.id_user = '$id_user' ORDER BY pembayaran.id_transaksi DESC");

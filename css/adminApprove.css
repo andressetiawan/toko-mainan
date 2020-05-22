@@ -151,7 +151,10 @@ main#homepage section#container-admin div#ket{
     flex-direction: column;
     line-height: 1px;
 }
-
+main#homepage section#container-admin div#ket form{
+    display: flex;
+    justify-content: center;
+}
 main#homepage section#container-admin div#ket a#btn-download{
     text-decoration: none;
     margin-top: 10px;
@@ -174,8 +177,10 @@ main#homepage section#container-admin div#ket a#btn-download:hover{
 }
 
 main#homepage section#container-admin div#ket form button{
-    margin-top: 10px;
     transition: all .5s;
+    margin-top: 10px;
+    width: 120px;
+    height: 35px;
 }
 main#homepage section#container-admin div#ket form button#approved:hover,
 main#homepage section#container-admin div#ket form button#sending:hover{

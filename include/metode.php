@@ -11,11 +11,12 @@ if(isset($_POST['btn-confirm'])){
     $stok = $_POST ['stok'];
     $stokUpdate = $stok- $jumlah;
     $id_produk = $_POST['id_produk'];
+    $alamat = $_POST['alamat'];
     //KALAU BORONG
     if($stok == $jumlah){
         $query ="INSERT INTO pembayaran(id_transaksi,id_kat_pembayaran) VALUES('$id_transaksi','$metode');";
-        $query .="INSERT INTO pengiriman(id_transaksi,id_kat_pengiriman) VALUES('$id_transaksi','$pengiriman');";
-        $query .= "UPDATE produk SET status_produk = 'Sold out' WHERE id_produk = '$id_produk'";
+        $query .="INSERT INTO pengiriman(id_transaksi,id_kat_pengiriman,keterangan) VALUES('$id_transaksi','$pengiriman','$alamat');";
+        $query .= "UPDATE produk SET stok = 0 ,status_produk = 'Sold out' WHERE id_produk = '$id_produk'";
         $result = mysqli_multi_query($conn,$query);
         if(mysqli_affected_rows($conn)>0){
             echo "
@@ -43,7 +44,7 @@ if(isset($_POST['btn-confirm'])){
     // KALAU STOK ADA
     if($stokUpdate > 0) {
         $query ="INSERT INTO pembayaran(id_transaksi,id_kat_pembayaran) VALUES('$id_transaksi','$metode');";
-        $query .="INSERT INTO pengiriman(id_transaksi,id_kat_pengiriman) VALUES('$id_transaksi','$pengiriman');";
+        $query .="INSERT INTO pengiriman(id_transaksi,id_kat_pengiriman,keterangan) VALUES('$id_transaksi','$pengiriman','$alamat');";
         $query .= "UPDATE produk SET stok = '$stokUpdate' WHERE id_produk = '$id_produk'";
         $result = mysqli_multi_query($conn,$query);
             if(mysqli_affected_rows($conn)>0){

@@ -4,6 +4,9 @@ session_start();
 if(!$_SESSION['login']){
     header('Location: index.php');
 }
+if(!$_POST['id_transaksi']){
+    header('Location: keranjang.php');
+}
 require 'include/functions.php';
 //PEMBAYARAN
 $payments = query("SELECT * FROM kat_pembayaran");
@@ -103,8 +106,11 @@ if(isset($_POST['btn-search'])){
                             <?php foreach($senders as $sender) : ?>
                             <option value="<?=$sender['id_kat_pengiriman']?>"><?=$sender['jenis_pengiriman']?></option>
                             <?php endforeach;?>
-                        </select> <br>
-
+                        </select>
+                        <h4>Detail alamat : </h4>
+                        <div>
+                        </div>
+                        <textarea name="alamat" id="alamat" cols="50" rows="5" placeholder="Masukan nama jalan, nomor rumah, dst" required></textarea>
                         <button type="submit" name="btn-confirm" id="btn-confirm" > Confirm </button>
                     </form>
             </section>

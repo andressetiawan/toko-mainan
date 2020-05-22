@@ -188,6 +188,8 @@ section#login form button#login{
 
 /* Hello atas Main kanan */
 section#main{
+    line-height: 5px;
+    padding: 0 15px;
     justify-content: center;
     width: 100%;
     display: flex;
