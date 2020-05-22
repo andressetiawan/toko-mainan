@@ -170,9 +170,11 @@ if(isset($_POST['btn-search'])){
             <h3>Bukti Pembayaran</h3>
             <a id="btn-download" href="../pembayaran/<?= $detail['bukti_pembayaran'];?>"target="_blank" download="">DOWNLOAD</a>
 
+            <?php if($detail['status_pengiriman'] == "Packing") : ?>
             <form action="" method="post">
                 <button type="submit" id="sending" name="sending"> SENDING </button>
             </form>
+            <?php endif; ?>
         <?php endforeach; ?>   
         </div>                                                            
         </section>
