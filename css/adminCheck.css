@@ -177,6 +177,17 @@ main#homepage section#container-admin table tbody tr{
     cursor: pointer;
     transition: all .3s;
 }
+main#homepage section#container-admin div#blank{
+    display: flex;
+    align-items: center;
+    background-color: #e17055;
+    justify-content: center;
+    height: 50px;
+    width: 100%;
+}
+main#homepage section#container-admin div#blank i{
+    font-size: x-large;
+}
 
 tbody tr:hover {
  background-color: #e17055;

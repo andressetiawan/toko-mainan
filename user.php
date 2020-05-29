@@ -10,14 +10,17 @@ $categories = query("SELECT * FROM kat_produk");
 
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
     $products = query("SELECT*FROM produk WHERE status_produk = 'Ready'");
+    $halaman = count($products);
 }
 if(isset($_GET['q'])){
     $id = $_GET['q'];
     $products = query("SELECT*FROM produk WHERE id_kat_produk='$id' AND status_produk = 'Ready'");
+    $halaman = count($products);
 }
 if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
     $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%' AND status_produk = 'Ready'");
+    $halaman = count($products);
 }
 if(isset($_POST['btn-lihat'])){
     $hargaMin = $_POST['hargaMin'];
@@ -26,6 +29,7 @@ if(isset($_POST['btn-lihat'])){
         echo "<script> alert('Harga maximum harus lebih besar dari harga minimum'); </script>";
     } else {
     $products = query("SELECT * FROM produk WHERE harga_produk BETWEEN '$hargaMin' AND '$hargaMax'");
+    $halaman = count($products);
     }
 }
 
@@ -83,6 +87,11 @@ if(isset($_POST['btn-lihat'])){
         </section>
 
         <section id="product">
+        <?php if($halaman === 0) : ?>
+            <div style="margin-top: 50%;">
+                <h1 style="color:#e17055; text-shadow: 2px 3px 5px black;">Produk tidak tersedia</h1>
+            </div>
+        <?php endif; ?>
         <?php foreach($products as $product) : ?>
             <div id="box" >
                 <div id="gambar">

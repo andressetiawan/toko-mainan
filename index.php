@@ -16,16 +16,19 @@ $categories = query("SELECT * FROM kat_produk");
 //TAMPILKAN SEMUA PRODUK YANG STOK READY
 if(!isset($_GET['q']) || !isset($_POST['btn-search'])){
     $products = query("SELECT*FROM produk WHERE status_produk = 'Ready'");
+    $halaman = count($products);
 }
 //TAMPILKAN SEMUA PRODUK BERDASARKAN ID_KAT_PRODUK
 if(isset($_GET['q'])){
     $keyword = $_GET['q'];
     $products = query("SELECT*FROM produk WHERE id_kat_produk='$keyword' AND status_produk = 'Ready'");
+    $halaman = count($products);
 }
 //TAMPILKAN SEMUA PRODUK BERDASARKAN NAMA PRODUK
 if(isset($_POST['btn-search'])){
     $keyword = $_POST['search'];
     $products = query("SELECT * FROM produk WHERE nama_produk LIKE '%$keyword%' AND status_produk = 'Ready'");
+    $halaman = count($products);
 }
 //LOGIN SYSTEM
 if(isset($_POST['login'])){
@@ -128,6 +131,11 @@ if(isset($_POST['login'])){
             </div>
             <!-- TAMPILKAN SEMUA PRODUK -->
             <div id="product">
+                <?php if($halaman === 0) : ?>
+                    <div style="margin-top: 50%;">
+                    <h1 style="color:#e17055; text-shadow: 2px 3px 5px black;">Produk tidak tersedia</h1>
+                </div>
+                <?php endif; ?>
                 <?php foreach($products as $product) : ?>
                     <div id="box" >
                         <div id="gambar">

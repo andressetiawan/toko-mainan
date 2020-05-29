@@ -102,7 +102,13 @@ if(isset($_POST['btn-search'])){
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
-                </table>                                                                   
+        </table>      
+                
+                <?php if($halaman === 0) : ?>
+                    <div id="blank">
+                        <i class="fa fa-ban	"></i> <h1> Pengiriman tidak ditemukan</h1>
+                    </div>
+                <?php endif; ?>
         </section>
     </main>
 
