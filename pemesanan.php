@@ -166,7 +166,11 @@ if(isset($_POST['btn-search'])){
                             <button name="btn-pembayaran" type="submit">KONFIRMASI PEMBAYARAN</button>
                         <?php endif; ?>
 
-                        <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pengiriman']!=="Arrived") :?>
+                        <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pengiriman']!=="Arrived" && $detail['status_pembayaran'] == "Resubmit") :?>
+                            <p style="text-transform: uppercase; line-height: initial; text-align: center;">Foto bukti pembayaran tidak jelas</p>
+                        <?php endif; ?>
+
+                        <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pengiriman']!=="Arrived" && $detail['status_pembayaran'] !== "Resubmit" && $detail['status_pembayaran'] !== "Approved") :?>
                             <h3 style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></h3>
                         <?php endif; ?>
 
@@ -176,6 +180,9 @@ if(isset($_POST['btn-search'])){
                     </form>
 
                     <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pembayaran'] === "Approved" && $detail['status_pengiriman'] === "Packing") :?>
+                        <div id="status-pembayaran">
+                            <h3 style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></h3>
+                        </div>
                         <div id="pengiriman">
                             <div id="status-box">
                             <p>Lastest Update</p>
@@ -185,6 +192,9 @@ if(isset($_POST['btn-search'])){
                     <?php endif; ?>
 
                     <?php if(!is_null($detail['bukti_pembayaran']) && $detail['status_pembayaran'] === "Approved" && $detail['status_pengiriman'] === "Sending") :?>
+                        <div id="status-pembayaran">
+                            <h3 style="text-transform: uppercase"><?= $detail['status_pembayaran'] ?></h3>
+                        </div>
                         <div id="pengiriman">
                             <div id="status-box">
                             <p>Lastest Update</p>

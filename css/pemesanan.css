@@ -218,6 +218,10 @@ section#main div#product div#tool div#pengiriman div#btn-status{
     cursor: pointer;
     flex-grow: 1;
 }
+section#main div#product div#tool div#status-pembayaran{
+    flex-grow: 1;
+    margin: 0 auto;
+}
 section#main div#product div#tool div#pengiriman div#status-box a{
     text-decoration: none;
     color: #2c3e50;
