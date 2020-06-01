@@ -74,7 +74,7 @@ if(isset($_POST['login'])){
 <body>
     <header> 
         <div id="banner">
-            <p>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</p>
+            <marquee>Mainan Anak - Toko Mainan - Jual Mainan - Alat Peraga Edukatif - Mainan Bayi - Mainan Kayu - Grosir Mainan - Wooden Toys</marquee>
             <h1>TOKO MAINAN</h1>
         </div>
 

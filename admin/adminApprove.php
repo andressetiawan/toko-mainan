@@ -11,6 +11,7 @@ $id_transaksi = $_GET['p'];
 
 $query = "SELECT bukti_pembayaran,transaksi.id_produk, id_pembayaran, pembayaran.id_transaksi,CONCAT(nama_depan,' ',nama_belakang) AS nama,nama_produk,jumlah,harga_produk,id_pengiriman,jenis_pengiriman,jenis_pembayaran,status_pembayaran FROM transaksi,pengiriman,kat_pengiriman,produk,pembayaran,kat_pembayaran,user WHERE transaksi.id_transaksi = pembayaran.id_transaksi AND transaksi.id_produk=produk.id_produk AND transaksi.id_user = user.id_user AND transaksi.id_transaksi=pengiriman.id_transaksi AND pengiriman.id_kat_pengiriman = kat_pengiriman.id_kat_pengiriman AND pembayaran.id_kat_pembayaran = kat_pembayaran.id_kat_pembayaran AND pembayaran.id_transaksi = '$id_transaksi'";
 $details = query($query);
+
 $id_pembayaran = $details[0]['id_pembayaran'];
 if(isset($_POST['approved'])){
     if($details[0]['status_pembayaran'] == "Approved"){
