@@ -100,7 +100,6 @@ function updateProduk($data){
     }
     return mysqli_affected_rows($conn);
 }
-
 function uploadGambarProduk(){
     $namaGambar = $_FILES['gambar_produk']['name'];
     $ukuranGambar = $_FILES['gambar_produk']['size'];
@@ -182,7 +181,6 @@ $query = "INSERT INTO produk VALUES('','$kategori','$nama_produk','$stok','$harg
 $result = mysqli_query($conn,$query);
 return mysqli_affected_rows($conn);
 }
-
 function uploadGambar(){
     $namaGambar = $_FILES['gambar_produk']['name'];
     $ukuranGambar = $_FILES['gambar_produk']['size'];

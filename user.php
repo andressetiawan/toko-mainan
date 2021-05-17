@@ -4,7 +4,6 @@ session_start();
 if(!$_SESSION['login']){
     header('Location: index.php');
 }
-
 require 'include/functions.php';
 $username = $_SESSION['nama'];
 $categories = query("SELECT * FROM kat_produk");

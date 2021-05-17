@@ -7,7 +7,6 @@ if(isset($_SESSION['login'])){
 else if (isset($_SESSION['masuk'])) {
     header('Location: admin/admin.php');
 }
-
 require 'include/functions.php';
 $categories = query("SELECT * FROM kat_produk");
 $addresses = query("SELECT * FROM alamat LIMIT 5");

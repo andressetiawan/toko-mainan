@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+/* SETTING UNIVERSAL */
+textarea:focus, input:focus{
+    outline: none;
+}
+input[type="date"]::-webkit-inner-spin-button{
+    display: none;
+    -webkit-appearance: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+head, body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffeaa7;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    margin: 20px auto;
+    max-width: 900px;
+    height: 200vh;
+    display: flex;
+    flex-direction: column;
+}
+/* HEADER ATAS */
+header{
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdcb6e;
+}
+/* TULISAN DIPALING ATAS HEADER */
+div#banner marquee{
+    color: #2c3e50;
+    font-size: small;
+}
+/* CONTAINER TULISAN TOKO MAINAN */
+div#banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+/* TULISAN TOKO MAINAN */
+div#banner h1{
+    color: #e17055;
+    font-size: 50px;
+}
+
+/* CONTAINER NAVBAR */
+header nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70px;
+    background-color: #e17055;
+}
+/* INPUTAN SEARCH */
+input#search{
+    color: #2c3e50;
+    height: 25px;
+    padding: 0px 10px;
+    border-radius: 15px;
+    border: 1px solid #2c3e50;
+    background-color: transparent;
+}
+button#search{
+    cursor: pointer;
+    font-size: medium;
+    background-color: transparent;
+    color: #2c3e50;
+    border: none;
+    border-radius: 50%;
+}
+input#search::placeholder{
+    color: #2c3e50;
+}
+/* ========================== */
+/* SEUA TULISAN DI NAVBAR */
+header nav a{
+    text-decoration: none;
+    color: #2c3e50;
+}
+nav a.daftar-nav , nav a.kat-nav , nav a.pemesanan-nav , nav a.keranjang-nav{
+    cursor: pointer;
+}
+
+/* MAIN CONTAINER */
+main#homepage{
+    flex-grow: 15;
+    display: flex;
+}
+
+/* SEMUA YANG DI KIRI */
+aside{
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdcb6e;
+}
+
+/* KATEGORI */
+section#kategori-index.show{
+    transform: scaleY(1);
+}
+section#kategori-index{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    transform: scaleY(0);
+    transform-origin: top;
+    flex-grow: .5;
+    background-color: #e17055;
+    transition: all .5s;
+    margin-bottom: 10px;
+}
+section#kategori-index a{
+    color: #2c3e50;
+    text-decoration: none;
+}
+section#kategori-index a:hover{
+    font-weight: bolder;
+}
+/* ======================================== */
+/* LOGIN FORM KIRI */
+section#login form h1 {
+    color: #2c3e50;
+}
+section#login{
+    padding: 0 30px;
+    flex-grow: 1;
+}
+section#login form input{
+    font-size: medium;
+    font-family: 'Poppins', sans-serif;
+    color: #2c3e50;
+    height: 25px;
+    padding: 2px 15px;
+    border-radius: 15px;
+    border: 1px solid #2c3e50;
+    background-color: transparent;
+}
+section#login form button#login{
+    margin-top: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    width: 50%;
+    height: 30px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 0px 7px;
+    border-radius: 15px;
+    border: 1px solid #2c3e50;
+    background-color: #e17055;
+}
+
+/* CONATINER MAIN KANAN */
+section#main{
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rebeccapurple;
+}
+/* TULISAN SELAMAT DATANG */
+section#main div#hello{
+    text-align: center;
+    height: 200px;
+    color: #121920;
+}
+/* CONTAINER SEMUA PRODUK */
+section#main div#product{
+    flex: 5;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background-color: #9b59b6;
+}
+/* BOX PRODUK */
+main div#product div#box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 0 0 20px 20px;
+    background-color: #e17055;
+    margin-bottom: 5px;
+    width: 180px;
+    height: 300px;
+}
+/* CONTAINER GAMBAR */
+main div#product div#box div#gambar{
+    margin-top: 10px;
+    flex-grow: 1;
+}
+/* CONTAINER CAPTION */
+main div#product div#box div#caption{
+    flex-grow: 1;
+    text-align: center;
+}
+/* TULISAN LINK KE DETAIL */
+main div#product div#box div#caption a{
+    width: 85%;
+    padding: 0px 6px;
+    background-color: #ff9980;
+    text-decoration: none;
+    color: #121920;
+}
